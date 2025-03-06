@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import article_list, article_detail
+from .views import ArticleListView, ArticleDetailView
 
 app_name = 'wiki'
 urlpatterns = [
-    path('articles/', article_list, name='article-list'),
-    path('article/<int:pk>/', article_detail, name='article-detail'),
+    path('articles/', ArticleListView.as_view(), name='article-list'),
+    path('article/<int:pk>/', ArticleDetailView.as_view(), name='article-detail'),
 ]
