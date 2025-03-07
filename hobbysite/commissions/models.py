@@ -26,7 +26,8 @@ class Commission(models.Model):
 
 class Comment(models.Model):
     commission = models.ForeignKey(Commission,
-                                   on_delete=models.CASCADE)
+                                   on_delete=models.CASCADE,
+                                   related_name='commission')
     entry = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
