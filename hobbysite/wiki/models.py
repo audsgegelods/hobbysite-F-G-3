@@ -8,7 +8,7 @@ class ArticleCategory(models.Model):
 
     def __str__(self):
         return self.name
-    
+
     class Meta:
         ordering = ['name']
 
@@ -29,6 +29,6 @@ class Article(models.Model):
 
     def get_absolute_url(self):
         return reverse('wiki:article_detail', args=[self.pk])
-    
+
     class Meta:
         ordering = ['-created_on']
