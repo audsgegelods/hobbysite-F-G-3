@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
+
 class ArticleCategory(models.Model):
     name = models.CharField(max_length=255, null=True)
     description = models.TextField()
@@ -10,6 +11,7 @@ class ArticleCategory(models.Model):
     
     class Meta:
         ordering = ['name']
+
 
 class Article(models.Model):
     title = models.CharField(max_length=255)
