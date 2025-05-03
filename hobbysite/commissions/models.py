@@ -6,10 +6,13 @@ class Commission(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     #TODO: Author
-    status = models.CharField(max_length=None, choices={"Open",
-                                                        "Full",
-                                                        "Completed",
-                                                        "Discontinued"})
+    STATUS_CHOICES = [
+        ('open', 'Open'),
+        ('full', 'Full'),
+        ('completed', 'Completed'),
+        ('discontinued', 'Discontinued'),
+    ]
+    status = models.CharField(max_length=12, choices=STATUS_CHOICES, default='open')
     people_required = models.IntegerField()
 
     created_on = models.DateTimeField(auto_now_add=True)
@@ -34,7 +37,11 @@ class Job(models.Model):
                                    related_name='commission')
     role = models.CharField(max_length=255)
     manpower_required = models.IntegerField()
-    status = models.CharField(max_length=None, choices={"Open", "Full"})
+    STATUS_CHOICES = [
+        ('open', 'Open'),
+        ('full', 'Full'),
+    ]
+    status = models.CharField(max_length=12, choices=STATUS_CHOICES, default='open')
     entry = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -51,9 +58,12 @@ class JobApplication(models.Model):
                             on_delete=models.CASCADE,
                             related_name='job')
     #TODO: Applicant
-    status = models.CharField(max_length=None, choices={"Pending", 
-                                                        "Accepted", 
-                                                        "Rejected"})
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected'),
+    ]
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
     applied_on = models.DateTimeField(auto_now_add=True)
 
     class Meta:
