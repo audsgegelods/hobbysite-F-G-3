@@ -1,11 +1,14 @@
 from django.db import models
 from django.urls import reverse
+from user_management.models import Profile
 
 
 class Commission(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    #TODO: Author
+    author = models.ForeignKey(Profile,
+                               on_delete=models.CASCADE,
+                               related_name="author")
     STATUS_CHOICES = [
         ('open', 'Open'),
         ('full', 'Full'),
@@ -57,7 +60,9 @@ class JobApplication(models.Model):
     job = models.ForeignKey(Job,
                             on_delete=models.CASCADE,
                             related_name='job')
-    #TODO: Applicant
+    applicant = models.ForeignKey(Profile,
+                                  on_delete=models.CASCADE,
+                                  related_name='applicant')
     STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('accepted', 'Accepted'),

@@ -1,7 +1,9 @@
 {% block content %}
 
-{% for commission in commission_list %}
-<h3><a href={{ commission.get_absolute_url }}>{{ commission.title }}</a></h3>
+{% for commission in commission_list.|dictsort:"status" %}
+    <h3><a href={{ commission.get_absolute_url }}>{{ commission.title }}</a>   -{{ commission.status }}</h3>
 {% endfor %}
+
+
 
 {% endblock %}

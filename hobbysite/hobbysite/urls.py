@@ -20,4 +20,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('commissions/', include('commissions.urls', namespace='commissions')),
+    path('accounts/', include('django.contrib.auth.urls'))
 ]
