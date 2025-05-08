@@ -1,4 +1,5 @@
 from .models import Commission
+from .forms import CommissionForm
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, CreateView
@@ -16,8 +17,11 @@ class ComDetailView(LoginRequiredMixin, DetailView):
     redirect_field_name = 'login.html'
 
 
-class ComCreateView(CreateView):
-    pass
+class ComCreateView(LoginRequiredMixin, CreateView):
+    model = Commission
+    form_class = CommissionForm
+    template_name = 'commission-add.html'
+    redirect_field_name = 'login.html'
 
 
 class ComUpdateView(UpdateView):

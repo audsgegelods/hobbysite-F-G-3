@@ -1,5 +1,7 @@
 {% block content %}
 
+<a href=/commissions/add>Create Recipe</a>
+
 {% for commission in commission_list.|dictsort:"status" %}
     <h3><a href={{ commission.get_absolute_url }}>{{ commission.title }}</a>   -{{ commission.status }}</h3>
 {% endfor %}
