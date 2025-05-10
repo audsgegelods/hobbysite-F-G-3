@@ -8,7 +8,8 @@ class Commission(models.Model):
     description = models.TextField()
     author = models.ForeignKey(Profile,
                                on_delete=models.CASCADE,
-                               related_name="author")
+                               related_name="author",
+                               null=True)
     STATUS_CHOICES = [
         ('open', 'Open'),
         ('full', 'Full'),
@@ -62,7 +63,8 @@ class JobApplication(models.Model):
                             related_name='job')
     applicant = models.ForeignKey(Profile,
                                   on_delete=models.CASCADE,
-                                  related_name='applicant')
+                                  related_name='applicant',
+                                  null=True) #TODO: TEMP
     STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('accepted', 'Accepted'),
