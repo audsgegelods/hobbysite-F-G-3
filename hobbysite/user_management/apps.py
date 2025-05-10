@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class MerchstoreConfig(AppConfig):
+class UserManagementConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'merchstore'
+    name = 'user_management'
