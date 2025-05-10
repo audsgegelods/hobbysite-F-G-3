@@ -4,17 +4,22 @@
 <ul>
     <li>{{ commission.description }}</li>
     <li>Author: {{ commission.author }}</li>
-    <li>People required: {{ commission.people_required }}</li>
+    <li>People required: 
+        {% for job in commission.job.all %}
+            {{ commission.people_required|add:job.manpower_required}}
+        {% endfor %}
+        
+        </li>
     <li>Created on: {{ commission.created_on }}</li>
     <li>Last updated: {{ commission.updated_on }}</li>
 </ul>
 
-<h3>Comments</h3>
+<h3>Jobs</h3>
 <ul>
-    {% for entry in commission.commission.all %}
-    <li>{{ entry.entry }}</li>
-    <li>Comment created on {{ entry.created_on }}</li>
-    <li>Comment updated on {{ entry.updated_on }}</li>
+    {% for job in commission.job.all %}
+    <li>{{ job.entry }}</li>
+    <li>Job created on {{ job.created_on }}</li>
+    <li>Job updated on {{ job.updated_on }}</li>
     <br>
     {% endfor %}
 </ul>

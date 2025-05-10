@@ -6,10 +6,10 @@ from user_management.models import Profile
 class Commission(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    author = models.ForeignKey(Profile,
-                               on_delete=models.CASCADE,
-                               related_name="author",
-                               null=True)
+    #author = models.ForeignKey(Profile,
+     #                          on_delete=models.CASCADE,
+      #                         related_name="author",
+       #                        null=True)
     STATUS_CHOICES = [
         ('open', 'Open'),
         ('full', 'Full'),
@@ -38,7 +38,7 @@ class Commission(models.Model):
 class Job(models.Model):
     commission = models.ForeignKey(Commission,
                                    on_delete=models.CASCADE,
-                                   related_name='commission')
+                                   related_name='job')
     role = models.CharField(max_length=255)
     manpower_required = models.IntegerField()
     STATUS_CHOICES = [
