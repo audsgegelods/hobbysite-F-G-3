@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<ol>
-		{% for article in object_list %}
-			<li>
-				<a href='{{ article.get_absolute_url }}'>
-				{{ article.title }}
-				</a>
-			</li>
-		{% endfor %}
-	</ol>
+	<h1>Blog Article List</h1>
+	{% for category in object_list %}
+		<h2>{{ category.name }}</h2>
+		<ol>
+			{% for article in category.articles.all %}
+				<li><a href='{{ article.get_absolute_url }}'>{{ article.title }}</a></li>
+			{% endfor %}
+		</ol>
+	{% endfor %}
+	<a href="{% url 'blog:article_create' %}">Create an Article Here</a>
 {% endblock %}

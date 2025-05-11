@@ -4,8 +4,10 @@
 	<h2>{{ article.title }}</h2>
 	<ol>
 		<li>Category: {{ article.category.name }}</li>
+		<li>Author: {{ article.author }}</li>
 		<li>Entry: {{ article.entry }}</li>
 		<li>Created on: {{ article.created_on }}</li>
 		<li>Updated on: {{ article.updated_on }}</li>
 	</ol>
+	<a href="{% url 'blog:article_list' %}">Article List Here</a>
 {% endblock %}
