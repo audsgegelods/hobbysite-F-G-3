@@ -10,4 +10,13 @@
 		<li>Updated on: {{ article.updated_on }}</li>
 	</ol>
 	<a href="{% url 'blog:article_list' %}">Article List Here</a>
+
+	<h2>Other articles by {{ article.author }}</h2>
+	<ol>
+		{% for other_article in all_objects %}
+			{% if other_article.author == article.author and other_article.title != article.title %}
+			<li><a href='{{ other_article.get_absolute_url }}'>{{ other_article.title }}</a></li>
+			{% endif %}
+		{% endfor %}
+	</ol>
 {% endblock %}

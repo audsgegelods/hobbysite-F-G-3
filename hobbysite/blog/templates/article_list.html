@@ -2,11 +2,26 @@
 
 {% block content %}
 	<h1>Blog Article List</h1>
+	<h1>Your Articles</h1>
 	{% for category in object_list %}
-		<h2>{{ category.name }}</h2>
+		<h3>{{ category.name }}</h3>
 		<ol>
 			{% for article in category.articles.all %}
-				<li><a href='{{ article.get_absolute_url }}'>{{ article.title }}</a></li>
+				{% if article.author == user %}
+					<li><a href='{{ article.get_absolute_url }}'>{{ article.title }}</a></li>
+				{% endif %}
+			{% endfor %}
+		</ol>
+	{% endfor %}
+
+	<h1>All Articles</h1>
+	{% for category in object_list %}
+		<h3>{{ category.name }}</h3>
+		<ol>
+			{% for article in category.articles.all %}
+				{% if article.author != user %}
+					<li><a href='{{ article.get_absolute_url }}'>{{ article.title }}</a></li>
+				{% endif %}
 			{% endfor %}
 		</ol>
 	{% endfor %}
