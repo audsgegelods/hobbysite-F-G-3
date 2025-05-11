@@ -19,4 +19,11 @@
 			{% endif %}
 		{% endfor %}
 	</ol>
+
+	<h1>Comments</h1>
+	<ol>
+		{% for comment in article.comments.all %}
+			<li>{{ comment.entry }}: {{ comment.created_on }}</li>
+		{% endfor %}
+	</ol>
 {% endblock %}

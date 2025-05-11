@@ -5,7 +5,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 
-from .models import Article, ArticleCategory
+from .models import Article, ArticleCategory, Comment
 # Create your views here.
 
 
@@ -22,6 +22,7 @@ class ArticleDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(ArticleDetailView, self).get_context_data(**kwargs)
         context['all_objects'] = Article.objects.all()
+        context['all_comments'] = Comment.objects.all()
 
         return context
 
