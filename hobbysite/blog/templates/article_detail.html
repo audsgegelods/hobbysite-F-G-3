@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
+	{% if article.header_image %}
+		<img src="{{ object.header_image.url }}" alt="no image here yet">
+	{% endif %}
 	<h2>{{ article.title }}</h2>
 	<ol>
 		<li>Category: {{ article.category.name }}</li>

@@ -44,7 +44,7 @@ class ArticleDetailView(DetailView):
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
-    fields = ['title', 'category', 'entry']
+    fields = ['title', 'category', 'entry', 'header_image']
     template_name = 'article_form.html'
 
     def form_valid(self, form):
@@ -55,5 +55,5 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
 
 class ArticleUpdateView(LoginRequiredMixin, UpdateView):
     model = Article
-    fields = ['title', 'category', 'entry']
+    fields = ['title', 'category', 'entry', 'header_image']
     template_name = 'article_form.html'
