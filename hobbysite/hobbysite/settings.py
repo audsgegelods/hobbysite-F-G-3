@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'commissions',
     'user_management',
     'blog',
-    'commissions',
     'merchstore',
     'wiki',
 ]

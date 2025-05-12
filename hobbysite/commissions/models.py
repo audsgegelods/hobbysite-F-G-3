@@ -1,15 +1,15 @@
 from django.db import models
 from django.urls import reverse
-from user_management.models import Profile
+from user_management.models import User
 
 
 class Commission(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    #author = models.ForeignKey(Profile,
-     #                          on_delete=models.CASCADE,
-      #                         related_name="author",
-       #                        null=True)
+    author = models.ForeignKey(User,
+                            on_delete=models.CASCADE,
+                            related_name="author",
+                            )
     STATUS_CHOICES = (
         ('Open', 'Open'),
         ('Full', 'Full'),
@@ -17,7 +17,6 @@ class Commission(models.Model):
         ('Discontinued', 'Discontinued'),
     )
     status = models.CharField(max_length=14, choices=STATUS_CHOICES)
-    people_required = models.IntegerField()
 
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -52,15 +51,15 @@ class Job(models.Model):
     class Meta:
         ordering = ['status', '-manpower_required', 'role']
 
-        verbose_name = 'comment'
-        verbose_name_plural = 'comments'
+        verbose_name = 'job'
+        verbose_name_plural = 'jobs'
 
 
 class JobApplication(models.Model):
     job = models.ForeignKey(Job,
                             on_delete=models.CASCADE,
                             related_name='job')
-    applicant = models.ForeignKey(Profile,
+    applicant = models.ForeignKey(User,
                                   on_delete=models.CASCADE,
                                   related_name='applicant',
                                   null=True) #TODO: TEMP
