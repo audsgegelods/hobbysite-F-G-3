@@ -19,9 +19,15 @@ class ComDetailView(LoginRequiredMixin, DetailView):
 
 class ComCreateView(LoginRequiredMixin, CreateView):
     model = Commission
-    form_class = CommissionForm
+    #form_class = CommissionForm
     template_name = 'commission-add.html'
     redirect_field_name = 'login.html'
+    fields = '__all__'
+
+    def form_valid(self, form):
+        author = self.request.user
+        form.instance.author = author
+        return super(ComCreateView, self).form_valid(form)
 
 
 class ComUpdateView(UpdateView):

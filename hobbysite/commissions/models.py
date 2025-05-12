@@ -10,13 +10,13 @@ class Commission(models.Model):
      #                          on_delete=models.CASCADE,
       #                         related_name="author",
        #                        null=True)
-    STATUS_CHOICES = [
-        ('open', 'Open'),
-        ('full', 'Full'),
-        ('completed', 'Completed'),
-        ('discontinued', 'Discontinued'),
-    ]
-    status = models.CharField(max_length=12, choices=STATUS_CHOICES, default='open')
+    STATUS_CHOICES = (
+        ('Open', 'Open'),
+        ('Full', 'Full'),
+        ('Completed', 'Completed'),
+        ('Discontinued', 'Discontinued'),
+    )
+    status = models.CharField(max_length=14, choices=STATUS_CHOICES)
     people_required = models.IntegerField()
 
     created_on = models.DateTimeField(auto_now_add=True)
@@ -29,7 +29,7 @@ class Commission(models.Model):
         return reverse('commissions:detail', args=[self.pk])
 
     class Meta:
-        ordering = ['created_on']
+        ordering = ['status', 'created_on']
 
         verbose_name = 'commission'
         verbose_name_plural = 'commissions'

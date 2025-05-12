@@ -2,6 +2,15 @@
 
 <a href=/commissions/add>Create Recipe</a>
 
+{% regroup commission_list by status as new_list %}
+
+{% for x in new_list %}
+    <h1>{{ x.grouper }}</h1>
+    {% for y in x.list %}
+        {{y.title}}
+    {% endfor %}
+{% endfor %}
+
 {% for commission in commission_list %}
     <h3><a href={{ commission.get_absolute_url }}>{{ commission.title }}</a>   -{{ commission.status }}</h3>
 {% endfor %}
