@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from user_management.models import User
 
+
 # Create your models here.
 class ArticleCategory(models.Model):
     name = models.CharField(max_length=255, null=True)
@@ -17,7 +18,7 @@ class ArticleCategory(models.Model):
 class Article(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(
-            User, 
+            User,
             on_delete=models.SET_NULL,
             null=True,
             editable=False
@@ -45,7 +46,7 @@ class Article(models.Model):
 
 class Comment(models.Model):
     author = models.ForeignKey(
-            User, 
+            User,
             on_delete=models.SET_NULL,
             null=True
         )
