@@ -20,7 +20,17 @@
 		{% endfor %}
 	</ol>
 
+	{% if user == article.author %}
+		<h3><a href='{% url "blog:article_edit" pk=article.pk %}'>Edit the article here</a></h3>
+	{% endif %}
 	<h1>Comments</h1>
+	{% if user.is_authenticated %}
+		<form method="post">
+			{% csrf_token %}
+			{{ form }}
+			<input type="submit" value="Submit">
+		</form>
+	{% endif %}
 	<ol>
 		{% for comment in article.comments.all %}
 			<li>{{ comment.entry }}: {{ comment.created_on }}</li>

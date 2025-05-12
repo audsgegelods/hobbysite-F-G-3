@@ -6,6 +6,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 
 from .models import Article, ArticleCategory, Comment
+from .forms import CommentForm
 # Create your views here.
 
 
@@ -18,16 +19,41 @@ class ArticleDetailView(DetailView):
     model = Article
     template_name = 'article_detail.html'
 
+
     #https://stackoverflow.com/questions/31201124/django-detailview-get-all-objects
     def get_context_data(self, **kwargs):
         context = super(ArticleDetailView, self).get_context_data(**kwargs)
         context['all_objects'] = Article.objects.all()
-        context['all_comments'] = Comment.objects.all()
-
+        context['form'] = CommentForm(initial={
+            "author": self.request.user, 
+            "article":self.object
+            })
         return context
+
+    def post(self, request, *args, **kwargs):
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return self.get(request, *args, **kwargs)
+        else:
+            self.object_list = self.get_queryset(**kwargs)
+            context = self.get_context_data(**kwargs)
+            context['form'] = form
+            return self.render_to_response(context)
 
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
-    fields = '__all__'
+    fields = ['title', 'category', 'entry']
+    template_name = 'article_form.html'
+
+    def form_valid(self, form):
+        user = self.request.user
+        form.instance.author = user
+        return super(ArticleCreateView, self).form_valid(form)
+
+
+class ArticleUpdateView(LoginRequiredMixin, UpdateView):
+    model = Article
+    fields = ['title', 'category', 'entry']
     template_name = 'article_form.html'
