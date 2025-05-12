@@ -36,7 +36,7 @@
 	{% endif %}
 	<ol>
 		{% for comment in article.comments.all %}
-			<li>{{ comment.entry }}: {{ comment.created_on }}</li>
+			<li>{{ comment.entry }}</li>
 		{% endfor %}
 	</ol>
 {% endblock %}

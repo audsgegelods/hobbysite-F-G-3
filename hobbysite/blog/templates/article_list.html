@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style type="text/css">
+	.column{
+		float: left;
+		width: 20%;
+		height: 200px;
+		overflow: hidden;
+	}
+</style>
 	<h1>Blog Article List</h1>
 	<h1>Your Articles</h1>
 	{% for category in object_list %}
@@ -26,4 +34,13 @@
 		</ol>
 	{% endfor %}
 	<a href="{% url 'blog:article_create' %}">Create an Article Here</a>
+
+	<h1>Image Gallery</h1>
+	<div>
+	{% for random_article in random_articles %}
+		{% if random_article.header_image %}
+			<div class='column'><img src="{{ random_article.header_image.url }}" alt="no image here yet"></div>
+		{% endif %}
+	{% endfor %}
+	</div>
 {% endblock %}
