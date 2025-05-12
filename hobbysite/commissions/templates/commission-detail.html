@@ -1,5 +1,7 @@
 {% block content %}
 
+<a href={% url 'commissions:edit' pk=object.pk %}>Edit Commission</a>
+
 <h2>{{ commission.title }}</h2>
 <ul>
     <li>{{ commission.description }}</li>

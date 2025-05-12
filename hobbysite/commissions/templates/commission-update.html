@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Commission Edit{% endblock %}
+
+
+{% block content %}
+<h1>Edit Commission</h1>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Save</button>
+</form>
+    
+{% endblock %}

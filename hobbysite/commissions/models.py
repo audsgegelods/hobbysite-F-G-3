@@ -9,7 +9,7 @@ class Commission(models.Model):
     author = models.ForeignKey(User,
                             on_delete=models.CASCADE,
                             related_name="author",
-                            )
+                            null=True)
     STATUS_CHOICES = (
         ('Open', 'Open'),
         ('Full', 'Full'),
