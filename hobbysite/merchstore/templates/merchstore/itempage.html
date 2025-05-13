@@ -1,0 +1,18 @@
+{% extends 'merchstore/base.html' %}
+{% load static %}
+{% block title %} Product {% endblock %}
+{% block content %}
+
+
+<h2> {{product.name}} </h2>
+<i> Php {{product.price}}</i> <br>
+<br>
+<strong>Description:</strong> {{product.description}}
+
+<dl>
+    <dt><i>Category:</i> <strong>{{product.product_type.name}}</strong></dt>
+    <dd>{{product.product_type.description}}</dd>
+</dl>
+
+
+{% endblock %}
