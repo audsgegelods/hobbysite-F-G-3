@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+	<h2>{{ post.title }}</h2>
+	<ul>
+		<li>Category: {{ post.category.name }}</li>
+		<li>Entry: {{ post.entry }}</li>
+		<li>Created on: {{ post.created_on }}</li>
+		<li>Updated on: {{ post.updated_on }}</li>
+	</ul>
+	
+{% endblock %}
