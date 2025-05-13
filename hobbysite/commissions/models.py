@@ -18,6 +18,7 @@ class Commission(models.Model):
     )
     status = models.CharField(max_length=14, choices=STATUS_CHOICES)
 
+    people_required = models.IntegerField(default=0)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -73,3 +74,6 @@ class JobApplication(models.Model):
 
     class Meta:
         ordering = ['status', 'applied_on']
+
+        verbose_name = 'job application'
+        verbose_name_plural = 'job applications'
