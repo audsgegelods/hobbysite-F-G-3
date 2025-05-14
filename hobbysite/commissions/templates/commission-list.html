@@ -4,21 +4,47 @@
 
 <a href=/commissions/add>Create Commission</a>
 
-<h2>Your Commissions</h2>
-{% for commission in created_comms %}
-    <h3><a href={{ commission.get_absolute_url }}> {{commission.title}} </a> -{{ commission.status }}</h3>
-{% endfor %}
+<div class="container">
+    <div class="row justify-content-start">
+        <div class="col">
+            <div class="container">
+                <h2>Your Commissions</h2>
+                {% for commission in created_comms %}
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-header">{{ commission.title }}</div>
+                        <div class="card-body">
+                            <p class="card-text">Status: {{ commission.status}}</p>
+                            <a href="{{ commission.get_absolute_url }}" class="btn btn-primary btn-sm">Details</a>
+                        </div>    
+                    </div>
+                    <br><br>
+                {% endfor %}
+            </div>
+        </div>
 
-<h2>Applied Commissions</h2>
-{% for commission in applied_comms %}
-    <h3><a href={{ commission.get_absolute_url }}> {{commission.title}} </a> -{{ commission.status }}</h3>
-{% endfor %}
+        <div class="col">    
+            <div class="container">
+                <h2>Applied Commissions</h2>
+                {% for commission in applied_comms %}
+                <div class="card" style="width: 18rem;">
+                    <div class="card-header">{{ commission.title }}</div>
+                    <div class="card-body">
+                        <p class="card-text">Status: {{ commission.status}}</p>
+                        <a href="{{ commission.get_absolute_url }}" class="btn btn-primary btn-sm">Details</a>
+                    </div>    
+                </div>
+                <br><br>
+                {% endfor %}
+            </div>
+    </div>
+</div>
 
-<br>
-<h2>Commissions<h2>
-{% for commission in sorted_comms %}
-    <h3><a href={{ commission.get_absolute_url }}>{{ commission.title }}</a>   -{{ commission.status }}</h3>
-{% endfor %}
 
+<div class="container">
+    <h2>Commissions<h2>
+    {% for commission in sorted_comms %}
+        <h3><a href={{ commission.get_absolute_url }}>{{ commission.title }}</a>   -{{ commission.status }}</h3>
+    {% endfor %}
+</div>
 
 {% endblock %}

@@ -19,8 +19,7 @@
     {{ form }}
     <button type="submit">Apply</button>
 </form>
-{% endif %}
-
+{% else %}
 <h2>Job Applications</h2>
 <ul>
 {% for jobApp in jobApps %}
@@ -31,5 +30,5 @@
         <br><br>
 {% endfor %}
 </ul>
-
+{% endif %}
 {% endblock %}
