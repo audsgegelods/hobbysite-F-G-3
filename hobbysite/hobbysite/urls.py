@@ -16,10 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.conf import settings
+from django.conf.urls.static import static
+from .views import homepage
 
 urlpatterns = [
+    path('', homepage, name="homepage"),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', include('merchstore.urls', namespace="merchstore")),
+    path('merchstore/', include('merchstore.urls', namespace="merchstore")),
     path('wiki/', include('wiki.urls', namespace="wiki")),
     path('blog/', include("blog.urls", namespace='blog')),
     path('commissions/', include('commissions.urls', namespace='commissions')),
@@ -27,3 +31,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

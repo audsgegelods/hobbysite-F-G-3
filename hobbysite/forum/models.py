@@ -1,8 +1,9 @@
 from django.db import models
 from django.urls import reverse
+from user_management.models import User
 
 
-class PostCategory(models.Model):
+class ThreadCategory(models.Model):
     name = models.CharField(max_length=255, null=True)
     description = models.TextField()
 
@@ -11,16 +12,29 @@ class PostCategory(models.Model):
 
     class Meta:
         ordering = ['name']
+        verbose_name_plural = "Thread Categories"
 
 
-class Post(models.Model):
+class Thread(models.Model):
     title = models.CharField(max_length=255)
+    author = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        editable=False
+    )
     category = models.ForeignKey(
-            PostCategory,
-            on_delete=models.SET_NULL,
-            null=True
-        )
+        ThreadCategory,
+        on_delete=models.SET_NULL,
+        null=True
+    )
     entry = models.TextField()
+    optional_image = models.ImageField(
+        upload_to='media/images/',
+        blank=True,
+        null=True,
+        verbose_name="Optional Image",
+    )
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -28,7 +42,26 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('forum:post_detail', args=[self.pk])
+        return reverse('forum:thread_detail', args=[self.pk])
 
     class Meta:
         ordering = ['-created_on']
+
+
+class Comment(models.Model):
+    author = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True
+    )
+    thread = models.ForeignKey(
+        Thread,
+        on_delete=models.CASCADE,
+        related_name='comments'
+    )
+    entry = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['created_on']

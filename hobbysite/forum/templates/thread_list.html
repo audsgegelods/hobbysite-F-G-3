@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style type="text/css">
+	.column{
+		float: left;
+		width: 20%;
+		height: 200px;
+		overflow: hidden;
+	}
+</style>
+	<h1>Thread List</h1>
+	<h2>Your Threads</h2>
+	{% for category in object_list %}
+		<h3>{{ category.name }}</h3>
+		<ul>
+			{% for thread in category.thread_set.all %}
+				{% if thread.author == user %}
+					<li>
+						<a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a>
+						by {{ thread.author }}
+					</li>
+				{% endif %}
+			{% endfor %}
+		</ul>
+	{% endfor %}
+
+	<h2>All Threads</h2>
+	{% for category in object_list %}
+		<h3>{{ category.name }}</h3>
+		<ul>
+			{% for thread in category.thread_set.all %}
+				{% if thread.author != user %}
+					<li>
+						<a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a>
+						by {{ thread.author }}
+					</li>
+				{% endif %}
+			{% endfor %}
+		</ul>
+	{% endfor %}
+	
+	<a href="{% url 'forum:thread_create' %}">Create a Thread Here</a>
+{% endblock %}
