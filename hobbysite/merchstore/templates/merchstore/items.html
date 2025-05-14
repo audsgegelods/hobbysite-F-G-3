@@ -3,19 +3,55 @@
 {% block title %} Merchandise {% endblock %}
 {% block content %}
 
+<ul>
 
-{% for product_type in object_list %}
-<dl>
-  <dt><h3>{{product_type}}</h3></dt>
-  <dd><i>{{product_type.description}}</i></dd>
-</dl>
-<ol>
-  <h4>Items</h4>
-    {% for product in product_type.product.all %}
-    <li><strong><a href='{{product.get_absolute_url}}'>{{product.name}}</a>:</strong> {{product.description}}</li>
+<a href="{% url 'merchstore:itemcreate' %}">Add an Item</a>
+
+{% if request.user.is_authenticated %}
+  <h2>Your Products</h2>
+    {% for product_type in object_list.filter(owner={{request.user}}) %}
+      <dl>
+        <dt><h3>{{product_type}}</h3></dt>
+        <dd><i>{{product_type.description}}</i></dd>
+      </dl>
+      <ol>
+        <h4>Items</h4>
+          {% for product in product_type.product.all %}
+          <li><strong><a href='{{product.get_absolute_url}}'>{{product.name}}</a>:</strong> {{product.description}}</li>
+          {% endfor %}
+      </ol>
     {% endfor %}
-</ol>
-{% endfor %}
+    
+  <h2>All Products</h2>
+    {% for product_type in object_list.filter(owner!={{request.user}}) %}
+      <dl>
+        <dt><h3>{{product_type}}</h3></dt>
+        <dd><i>{{product_type.description}}</i></dd>
+      </dl>
+      <ol>
+        <h4>Items</h4>
+          {% for product in product_type.product.all %}
+          <li><strong><a href='{{product.get_absolute_url}}'>{{product.name}}</a>:</strong> {{product.description}}</li>
+          {% endfor %}
+      </ol>
+    {% endfor %}
+
+
+{% else %}
+<h2>All Products</h2>
+  {% for product_type in object_list %}
+  <dl>
+    <dt><h3>{{product_type}}</h3></dt>
+    <dd><i>{{product_type.description}}</i></dd>
+  </dl>
+  <ol>
+    <h4>Items</h4>
+      {% for product in product_type.product.all %}
+      <li><strong><a href='{{product.get_absolute_url}}'>{{product.name}}</a>:</strong> {{product.description}}</li>
+      {% endfor %}
+  </ol>
+  {% endfor %}
+{% endif %}
 </ul>
 
 

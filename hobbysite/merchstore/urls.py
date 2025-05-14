@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import IndividProductView, AllItemsView
+from .views import IndividProductView, AllItemsView, ProductCreateView, ProductUpdateView
 
 urlpatterns = [
     path(
@@ -11,6 +11,16 @@ urlpatterns = [
         'merchstore/item/<int:pk>',
         IndividProductView.as_view(),
         name="itempage"
+        ),
+    path(
+        'merchstore/item/add',
+        ProductCreateView.as_view(),
+        name="itemcreate"
+        ),
+    path(
+        'merchstore/item/edit',
+        ProductUpdateView.as_view(),
+        name="itemupdate"
         ),
 ]
 

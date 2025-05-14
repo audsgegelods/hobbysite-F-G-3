@@ -14,5 +14,20 @@
     <dd>{{product.product_type.description}}</dd>
 </dl>
 
+{% if request.user != {{product.owner}} %}
+    <form method = "POST" enctype = "multipart/form-data">
+        {% csrf_token %}
+        {{form}}
+        <button type = "submit">Submit</button>
+    </form>
+{% endif %}
+
+{% if request.user.is_authenticated %}
+    {% if request.user = {{product.owner}} %}
+        <a href="{% url 'merchstore:itemupdate' %}">Edit Item Information</a>
+    {% endif %}
+{% endif %}
+
+
 
 {% endblock %}
