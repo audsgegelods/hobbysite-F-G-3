@@ -23,7 +23,7 @@ class ArticleAdmin(admin.ModelAdmin):
     model = Article
     inlines = [CommentInline, ]
 
-    list_display = ['header_image', 'title', 'author__name', 'category__name', 'created_on', 'updated_on']
+    list_display = ['title', 'author__name', 'category__name', 'created_on', 'updated_on']
     search_fields = ['title', 'author__name', 'category__name']
     list_filter = ['title', 'author__name', 'updated_on']
 
@@ -33,7 +33,7 @@ class ArticleAdmin(admin.ModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
     model = Comment
 
-    list_display = ['article__header_image', 'article__title', 'author__name', 'created_on', 'updated_on']
+    list_display = ['article__title', 'author__name', 'created_on', 'updated_on']
     search_fields = ['article__title', 'author__name']
     list_filter = ['author__name', 'updated_on']
 
