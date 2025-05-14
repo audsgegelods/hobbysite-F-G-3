@@ -10,7 +10,7 @@ class ProductCreateForm(forms.ModelForm):
 class ProductUpdateForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name','product_type','description','price','stock',]
+        exclude = ['owner']
 
 class TransactionForm(forms.ModelForm):
     class Meta:

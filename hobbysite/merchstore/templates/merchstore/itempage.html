@@ -5,9 +5,13 @@
 
 
 <h2> {{product.name}} </h2>
-<i> Php {{product.price}}</i> <br>
+<i> Sold by: {{product.owner}} </i> <br>
+<i> Php <strong>{{product.price}}</strong></i> <br>
 <br>
 <strong>Description:</strong> {{product.description}}
+<br>
+<strong>Stock:</strong> {{product.stock}}
+
 
 <dl>
     <dt><i>Category:</i> <strong>{{product.product_type.name}}</strong></dt>
@@ -15,10 +19,19 @@
 </dl>
 
 {% if user != product.owner %}
-    <form method = "POST" enctype = "multipart/form-data">
+    <form method = "POST">
         {% csrf_token %}
         {{form}}
-        <button type = "submit">Submit</button>
+        {% if product.stock < 1 %}
+        <button type="submit" disabled>Buy</button>
+        {% else %}
+            {% if request.user.is_authenticated %}
+                <button type = "submit" onclick="location.href='{{cart}}'">Buy</button>
+            {% else %}
+                <button onclick="location.href='{% url 'login' %}'">Buy</button>
+            {% endif %}
+
+        {% endif %}
     </form>
 {% endif %}
 
