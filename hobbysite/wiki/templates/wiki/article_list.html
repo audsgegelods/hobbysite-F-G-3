@@ -1,15 +1,45 @@
 {% extends 'wiki/base.html' %}
 {% load static %}
-{% block title %}Article List{% endblock %}
+{% block title %}Wiki Article List{% endblock %}
 {% block content %}
-<h2>List of Articles</h2>
-<ul>
-    {% for article in object_list %}
-    <li>
-        <a href={{ article.get_absolute_url }}>
-            {{ article.title }}
-        </a>
-    </li>
-    {% endfor %}
-</ul>
+
+<h2>List of Wiki Articles</h2>
+{% for category in object_list %}
+    {% if request.user.is_authenticated %}
+        <h3>Your Articles</h3>
+        <ul>
+            {% for article in category.articles.all %}
+                {% if article.author is request.user%}
+                    <li><a href={{ article.get_absolute_url }}>
+                        {{ article.title }}
+                    </a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+
+        <h3>All Articles</h3>
+        <ul>
+            {% for article in category.articles.all %}
+                {% if article.author is not request.user%}
+                    <li><a href={{ article.get_absolute_url }}>
+                        {{ article.title }}
+                    </a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+
+
+    {% else %}
+        <h3>All Articles</h3>
+        <ul>
+            {% for article in category.articles.all  %}
+                <li>
+                    <a href={{ article.get_absolute_url }}>
+                        {{ article.title }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endfor %}
 {% endblock %}
