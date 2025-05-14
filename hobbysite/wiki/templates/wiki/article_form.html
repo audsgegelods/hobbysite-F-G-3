@@ -3,14 +3,13 @@
 
 {% block title %}{% endblock %}
 {% block content %}
+<a href="{% url 'wiki:article-list' %}">Wiki Article List</a>
 {% if request.user.is_authenticated %}
     {% comment %} <form method="POST" action="{% url 'ledger:recipe' request.POST.get('recipe') %}"> {% endcomment %}
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="Create article">
     </form>
-    {% else %}
-    <p>You are not authorized to view this page! Please log in!</p>
 {% endif %}
 {% endblock %}
