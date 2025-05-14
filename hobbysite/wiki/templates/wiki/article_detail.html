@@ -2,12 +2,51 @@
 {% load static %}
 {% block title %}{{ article.title }}{% endblock %}
 {% block content %}
-<h2>{{ article.title }}</h2>
-<ul>
-    <li>{{ article.title }}</li>
-    <li>Category: {{ article.category.name }}</li>
-    <li>Created on: {{ article.created_on }}</li>
-    <li>Updated on: {{ article.updated_on }}</li>
-    <li>{{ article.entry }}</li>
-</ul>
+
+<a href="{% url 'wiki:article-list' %}">Wiki Article List</a>
+
+<div>
+	<h1>{{ article.title }} by {{ article.author }}</h1>
+	{% if request.user.is_authenticated and request.user==article.author %}
+		<span>
+			[ 
+			<a href="{% url 'wiki:article-update' pk=article.pk%}">Edit</a>
+			 ]
+		</span>
+	{% endif %}
+</div>
+
+
+
+{% if article.header_image %}
+    <img src="{{ article.header_image.url }}">
+{% endif %}
+
+<div>Created on {{ article.created_on }}</div>
+<div>Last Updated on {{ article.updated_on }}</div>
+
+
+<h2>Contents</h2>
+<p>{{ article.entry }}</p>
+<h2>Comments</h2>
+{% if request.user.is_authenticated %}
+	<form method="POST">
+		{% csrf_token %}
+		{{ form }}
+		<input type="submit" value="Submit">
+	</form>
+{% endif %}
+{% for comment in article.comments.all %}
+	<div>{{ comment.entry }}</div>
+{% endfor %}
+
+
+<h2>Read more from {{ article.category.name }}</h2>
+{% for similar_article in article.category.articles.exclude(pk=article.pk) %}
+    <div><p>
+        <a href={{ similar_article.get_absolute_url }}>
+            {{ similar_article.title }}
+        </a>
+    </p></div>
+{% endfor %}
 {% endblock %}
