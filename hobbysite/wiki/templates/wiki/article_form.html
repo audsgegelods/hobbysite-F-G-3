@@ -1,0 +1,16 @@
+{% extends 'wiki/base.html' %}
+{% load static %}
+
+{% block title %}{% endblock %}
+{% block content %}
+{% if request.user.is_authenticated %}
+    {% comment %} <form method="POST" action="{% url 'ledger:recipe' request.POST.get('recipe') %}"> {% endcomment %}
+    <form method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Create article">
+    </form>
+    {% else %}
+    <p>You are not authorized to view this page! Please log in!</p>
+{% endif %}
+{% endblock %}
