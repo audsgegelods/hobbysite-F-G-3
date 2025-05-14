@@ -8,7 +8,10 @@ class ArticleCategory(models.Model):
         max_length=255,
         null=True
     )
-    description = models.TextField()
+    description = models.TextField(
+        null=True,
+        required=False
+    )
 
     def __str__(self):
         return self.name
@@ -34,7 +37,11 @@ class Article(models.Model):
         related_name='articles'
     )
     entry = models.TextField()
-    header_image = models.ImageField(upload_to='images/', null=True)
+    header_image = models.ImageField(
+        upload_to='images/',
+        null=True,
+        required=False
+        )
     created_on = models.DateTimeField(auto_now_add=True, editable=False)
     updated_on = models.DateTimeField(auto_now=True)
 
