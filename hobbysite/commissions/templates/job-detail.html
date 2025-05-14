@@ -1,20 +1,25 @@
 {% block content %}
 
 <ul>
-    <li>{{ job.commission.title }}
-    <li>{{ job.role }}
-    <li>{{ job.manpower_required }}
-    <li>{{ job.status }}
-    <li>{{ job.entry }}
-    <li>{{ job.created_on }}
-    <li>{{ job.updated_on }}
+    <li>{{ job.commission.title }}</li>
+    <li>{{ job.role }}</li>
+    <li>{{ job.manpower_required }}</li>
+    <li>{{ job.status }}</li>
+    <li>{{ job.entry }}</li>
+    <li>{{ job.created_on }}</li>
+    <li>{{ job.updated_on }}</li>
 </ul>
+
 
 <ul>
 {% for jobApp in jobApp_list %}
     {% if jobApp.job == job %}
-        <li>{{ jobApp.status }}
+        <li>{{ jobApp.job }}</li>
+        <li>{{ jobApp.applicant }}</li>
+        <li>{{ jobApp.status }}</li>
+        <br>
     {% endif %}
 {% endfor %}
 </ul>
+
 {% endblock %}

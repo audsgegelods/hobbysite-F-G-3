@@ -1,8 +1,20 @@
 {% block content %}
 
-<a href=/commissions/add>Create Recipe</a>
+<a href=/commissions/add>Create Commission</a>
 
-{% for commission in commission_list %}
+<h2>Your Commissions</h2>
+{% for commission in created_comms %}
+    <h3><a href={{ commission.get_absolute_url }}> {{commission.title}} </a> -{{ commission.status }}</h3>
+{% endfor %}
+
+<h2>Applied Commissions</h2>
+{% for commission in applied_comms %}
+    <h3><a href={{ commission.get_absolute_url }}> {{commission.title}} </a> -{{ commission.status }}</h3>
+{% endfor %}
+
+<br>
+<h2>Commissions<h2>
+{% for commission in sorted_comms %}
     <h3><a href={{ commission.get_absolute_url }}>{{ commission.title }}</a>   -{{ commission.status }}</h3>
 {% endfor %}
 
