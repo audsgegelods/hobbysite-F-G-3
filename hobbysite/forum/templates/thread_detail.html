@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<h2>{{ thread.title }}</h2>
+	
+	{% if thread.optional_image %}
+		<img src="{{ thread.optional_image.url }}" 
+		alt="image not found" 
+		class="img-fluid">
+	{% endif %}
+	
+	<p>
+	{{ thread.entry }}
+	</p>
+	
+	<ul>
+		<li>Category: {{ thread.category.name }}</li>
+		<li>Author: {{ thread.author }}</li>
+		<li>Created on: {{ thread.created_on }}</li>
+		<li>Updated on: {{ thread.updated_on }}</li>
+	</ul>
+
+	{% if user == thread.author %}
+		<h3><a href='{% url "forum:thread_update" pk=thread.pk %}'>Edit the thread here</a></h3>
+	{% endif %}
+	<h1>Comments</h1>
+	<ol>
+		{% for comment in thread.comments.all %}
+			<li>{{ comment.author }}: {{ comment.entry }} 
+				<br>Commented on: {{ comment.created_on }}
+			</li>
+		{% endfor %}
+	</ol>
+	{% if user.is_authenticated %}
+		<form method="post">
+			{% csrf_token %}
+			{{ form }}
+			<input type="submit" value="Submit">
+		</form>
+	{% endif %}
+
+	<h1>Other threads in {{ thread.category }}</h1>
+	<ul>
+		{% for other_thread in all_objects %}
+			{% if other_thread.category == thread.category and other_thread.title != thread.title %}
+			<li><a href='{{ other_thread.get_absolute_url }}'>{{ other_thread.title }}</a></li>
+			{% endif %}
+		{% endfor %}
+	</ul>
+	
+	<h1><a href="{% url 'forum:thread_list' %}">Go Back to Thread List Here</a></h1>
+
+	
+{% endblock %}
