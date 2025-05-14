@@ -9,7 +9,6 @@ class ProfileInline(admin.StackedInline):
     search_fields = ['name', 'email']
     list_filter = ['name']
     list_display = ['user', 'name', 'email']
-    # fields = '__all__'
 
 class UserAdmin(BaseUserAdmin):
     inlines = [ProfileInline,]
