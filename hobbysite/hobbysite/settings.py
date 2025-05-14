@@ -124,8 +124,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = [os.path.join(BASE_DIR, 'static')]
-LOGIN_REDIRECT_URL = '/blog/articles'
-LOGOUT_REDIRECT_URL = '/accounts/login'
+MEDIA_ROOT = BASE_DIR/'media'
+MEDIA_URL = '/media/'
+LOGIN_REDIRECT_URL = '/wiki/articles'
+LOGOUT_REDIRECT_URL = '/user_management/login'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Default primary key field type
