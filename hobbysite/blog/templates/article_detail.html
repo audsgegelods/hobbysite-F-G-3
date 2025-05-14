@@ -1,11 +1,42 @@
 {% extends 'base.html' %}
 
 {% block content %}
+	{% if article.header_image %}
+		<img src="{{ object.header_image.url }}" alt="no image here yet">
+	{% endif %}
 	<h2>{{ article.title }}</h2>
 	<ol>
 		<li>Category: {{ article.category.name }}</li>
+		<li>Author: {{ article.author }}</li>
 		<li>Entry: {{ article.entry }}</li>
 		<li>Created on: {{ article.created_on }}</li>
 		<li>Updated on: {{ article.updated_on }}</li>
+	</ol>
+	<a href="{% url 'blog:article_list' %}">Article List Here</a>
+
+	<h2>Other articles by {{ article.author }}</h2>
+	<ol>
+		{% for other_article in all_objects %}
+			{% if other_article.author == article.author and other_article.title != article.title %}
+			<li><a href='{{ other_article.get_absolute_url }}'>{{ other_article.title }}</a></li>
+			{% endif %}
+		{% endfor %}
+	</ol>
+
+	{% if user == article.author %}
+		<h3><a href='{% url "blog:article_edit" pk=article.pk %}'>Edit the article here</a></h3>
+	{% endif %}
+	<h1>Comments</h1>
+	{% if user.is_authenticated %}
+		<form method="post">
+			{% csrf_token %}
+			{{ form }}
+			<input type="submit" value="Submit">
+		</form>
+	{% endif %}
+	<ol>
+		{% for comment in article.comments.all %}
+			<li>{{ comment.entry }}</li>
+		{% endfor %}
 	</ol>
 {% endblock %}
