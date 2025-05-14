@@ -10,7 +10,7 @@ class ArticleCategory(models.Model):
     )
     description = models.TextField(
         null=True,
-        required=False
+        blank=True
     )
 
     def __str__(self):
@@ -40,7 +40,7 @@ class Article(models.Model):
     header_image = models.ImageField(
         upload_to='images/',
         null=True,
-        required=False
+        blank=True
         )
     created_on = models.DateTimeField(auto_now_add=True, editable=False)
     updated_on = models.DateTimeField(auto_now=True)
