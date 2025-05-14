@@ -1,6 +1,14 @@
 <html lang="en">
 <head>
     <title>{% block title %}{% endblock %}</title>
+    {% if request.user.is_authenticated %}
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    {% else %}
+    <a href="{% url 'login' %}">Login</a>
+    {% endif %}
     {% block styles %}{% endblock %}
 </head>
 <body>

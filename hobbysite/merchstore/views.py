@@ -2,7 +2,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import ProductType, Product, Transaction
+from .models import Product, ProductType, Transaction
 from .forms import ProductCreateForm, ProductUpdateForm, TransactionForm
 
 # Create your views here.
@@ -17,7 +17,7 @@ class IndividProductView(DetailView):
         if form.is_valid():
             form.instance.buyer = self.request.user
             form.instance.product = self.get_object()
-            form.instance.status =  'On cart'
+            form.instance.status =  'CART'
             form.save()
             return self.get(request, *args, **kwargs)
         else:
@@ -33,12 +33,24 @@ class AllItemsView(ListView):
 class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductCreateForm
-    template_name = 'merchstore/product.html'
+    template_name = 'merchstore/productform.html'
     redirect_field_name = '/accounts/login'
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super(ProductCreateView, self).form_valid(form)
 
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductUpdateForm
-    template_name = 'merchstore/product.html'
+    template_name = 'merchstore/productform.html'
     redirect_field_name = '/accounts/login'
+
+class CartView(ListView):
+    model = Transaction
+    template_name = 'merchstore/cart.html'
+
+class TransactionView(ListView):
+    model = Transaction
+    template_name = 'merchstore/transactions.html'
 

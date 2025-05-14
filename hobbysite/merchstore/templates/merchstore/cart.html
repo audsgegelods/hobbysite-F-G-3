@@ -1,0 +1,24 @@
+{% extends 'merchstore/base.html' %}
+{% load static %}
+{% block title %} Cart {% endblock %}
+{% block content %}
+
+<ul>
+
+<h2>Your Cart</h2>
+  {% for Transaction in object_list %}
+  <dl>
+    <dt><h3>{{product_type}}</h3></dt>
+    <dd><i>{{product_type.description}}</i></dd>
+  </dl>
+  <ol>
+    <h4>Items</h4>
+      {% for product in product_type.product.all %}
+      <li><strong><a href='{{product.get_absolute_url}}'>{{product.name}}</a>:</strong> {{product.description}}</li>
+      {% endfor %}
+  </ol>
+  {% endfor %}
+</ul>
+
+
+{% endblock %}
