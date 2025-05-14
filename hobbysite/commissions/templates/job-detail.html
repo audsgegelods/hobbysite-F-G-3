@@ -2,33 +2,60 @@
 {% load static %}
 {% block content %}
 
-<ul>
-    <h2>{{ job.commission.title }}</h2>
-    <h3>{{ job.role }}</h3>
-    <li>Manpower Required: {{ job.manpower_required }}</li>
-    <li>Status: {{ job.status }}</li>
-    <li>Details: {{ job.entry }}</li>
-    <li>Job created on {{ job.created_on }}</li>
-    <li>Job updated on {{ job.updated_on }}</li>
-</ul>
-
+<div class="container">
+    <h2>Job Details</h2>
+    <div class="card" style="width: 40rem; margin-top:30px">
+        <div class="card-body">
+            <div class="row justify-content-start">
+                <div class="col"><b>Role</b> <p>{{ job.role }}</p></div>
+                <div class="col"><b>Manpower Required</b> <p>{{ job.manpower_required }}</p></div>
+                <div class="col"><b>Status</b> <p>{{ job.status }}</p></div>
+            </div>
+            <br>
+            <div class="row justify-content-start">
+                <div class="col"><b>Commission</b> <p>{{ job.commission.title }}</p></div>
+                <div class="col"><b>Job Created on</b> <p>{{ job.created_on }}</p></div>
+                <div class="col"><b>Last updated</b> <p>{{ job.updated_on }}</p></div>
+            </div>
+            <div class="row justify-content-start">
+                <hr>
+                <div class="col"><b>Details</b> <p>{{ job.entry }}</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<hr>
 {% if job.commission.author != user %}
-<h1>Apply to Job</h1>
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form }}
-    <button type="submit">Apply</button>
-</form>
+<div class="container">
+    <h2>Apply to Job</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Apply</button>
+    </form>
+</div>
 {% else %}
-<h2>Job Applications</h2>
-<ul>
-{% for jobApp in jobApps %}
-        <li>{{ jobApp.job }}</li>
-        <li>{{ jobApp.applicant }}</li>
-        <li>{{ jobApp.status }}</li>
-        <button>Review Application</button>
-        <br><br>
-{% endfor %}
-</ul>
+<div class="container">
+    <h2>Job Applications</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Status</th>
+                <th scope="col">Applicant</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for jobApp in jobApps %}
+            <tr>
+                <td>{{ jobApp.status }}</td>
+                <td>{{ jobApp.applicant }}</td>
+                <td><a href='' class="btn btn-warning">Review Application</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endif %}
 {% endblock %}

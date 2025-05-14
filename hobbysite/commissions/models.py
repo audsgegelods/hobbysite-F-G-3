@@ -65,9 +65,9 @@ class JobApplication(models.Model):
                                   related_name='applicant',
                                   null=True) #TODO: TEMP
     STATUS_CHOICES = [
-        ('pending', 'Pending'),
-        ('accepted', 'Accepted'),
-        ('rejected', 'Rejected'),
+        ('Pending', 'Pending'),
+        ('Accepted', 'Accepted'),
+        ('Rejected', 'Rejected'),
     ]
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
     applied_on = models.DateTimeField(auto_now_add=True)
