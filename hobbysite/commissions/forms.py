@@ -11,5 +11,5 @@ class CommissionForm(forms.ModelForm):
 class JobAppForm(forms.ModelForm): #TODO
     class Meta:
         model = JobApplication
-        fields = ['job', 'applicant']
+        exclude = ['job', 'applicant', 'status']
         

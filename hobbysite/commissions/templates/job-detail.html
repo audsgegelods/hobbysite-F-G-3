@@ -10,15 +10,20 @@
     <li>{{ job.updated_on }}</li>
 </ul>
 
+<h1>Apply to Job</h1>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Apply</button>
+</form>
 
+<h2>Job Applications</h2>
 <ul>
-{% for jobApp in jobApp_list %}
-    {% if jobApp.job == job %}
+{% for jobApp in jobApps %}
         <li>{{ jobApp.job }}</li>
         <li>{{ jobApp.applicant }}</li>
         <li>{{ jobApp.status }}</li>
         <br>
-    {% endif %}
 {% endfor %}
 </ul>
 

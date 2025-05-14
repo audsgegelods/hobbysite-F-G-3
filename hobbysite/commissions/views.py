@@ -93,8 +93,26 @@ class JobDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['jobApp_list'] = JobApplication.objects.all()
+        context['form'] = JobAppForm()
+        context['jobApps'] = []
+        for jobApp in JobApplication.objects.all():
+            if jobApp.job == self.get_object():
+                context['jobApps'].append(jobApp)
+
         return context
+    
+    def post(self, request, *args, **kwargs):
+        form = JobAppForm(request.POST)
+        if form.is_valid():
+            form.instance.applicant = self.request.user
+            form.instance.job = self.get_object()
+            form.save()
+            return self.get(request, *args, **kwargs)
+        else:
+            self.object_list = self.get_queryset(**kwargs)
+            context = self.get_context_data(**kwargs)
+            context['form'] = form
+            return self.render_to_response(context)
 
 
 class ComCreateView(LoginRequiredMixin, CreateView):
@@ -114,3 +132,4 @@ class ComUpdateView(LoginRequiredMixin, UpdateView):
     fields = ['title', 'description', 'status']
     template_name = 'commission-update.html'
     redirect_field_name = 'login.html'
+    
