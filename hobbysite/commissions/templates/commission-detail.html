@@ -17,24 +17,12 @@
     <ul>
     <li>{{ job.entry }}</li>
     <li>Manpower Required: {{ job.manpower_required }}</li>
-    <a href={% url 'commissions:job_detail' pk=job.pk %}><button>View Job Details</button></a>
+    {% if commission.author == user %}
+        <a href={% url 'commissions:job_detail' pk=job.pk %}><button>View Job Details & Review Applications</button></a>
+    {% else %}
+        <a href={% url 'commissions:job_detail' pk=job.pk %}><button>View Job Details & Apply</button></a>
+    {% endif %}
     <br>
-    <!--<form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form }}
-        <button type="submit">Apply</button>
-    </form>-->
     </ul>
     {% endfor %}
-
-<!--<h3>Job Applications</h3>
-<ul>
-    {% for jobApp in jobApp_list %}
-            <li>{{ jobApp.job }}</li>
-            <li>{{ jobApp.applicant }}</li>
-            <li>{{ jobApp.status }}</li>
-            <br>
-    {% endfor %}
-    </ul>-->
-
 {% endblock %}

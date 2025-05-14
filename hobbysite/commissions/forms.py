@@ -8,7 +8,7 @@ class CommissionForm(forms.ModelForm):
         fields = '__all__'
 
 
-class JobAppForm(forms.ModelForm): #TODO
+class JobAppForm(forms.ModelForm):
     class Meta:
         model = JobApplication
         exclude = ['job', 'applicant', 'status']

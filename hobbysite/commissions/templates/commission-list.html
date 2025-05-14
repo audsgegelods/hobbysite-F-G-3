@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% load static %}
 {% block content %}
 
 <a href=/commissions/add>Create Commission</a>
@@ -17,7 +19,6 @@
 {% for commission in sorted_comms %}
     <h3><a href={{ commission.get_absolute_url }}>{{ commission.title }}</a>   -{{ commission.status }}</h3>
 {% endfor %}
-
 
 
 {% endblock %}

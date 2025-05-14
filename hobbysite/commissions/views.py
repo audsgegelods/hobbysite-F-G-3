@@ -12,22 +12,8 @@ class ComListView(ListView):
     model = Commission
     template_name = 'commission-list.html'
 
-    def annotate_queryset(self):
-        comms = Commission.objects.annotate(
-            ordering = Case(
-                When(status='Open', then=0),
-                When(status='Full', then=1),
-                When(status='Completed', then=2),
-                When(status='Discontinued', then=3)
-            )
-        ).order_by('ordering')
-        return comms        
-    
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        
         sorted_comms = Commission.objects.annotate(
             ordering = Case(
                 When(status='Open', then=0),
@@ -42,7 +28,7 @@ class ComListView(ListView):
             if comm.author == self.request.user:
                 context['created_comms'].append(comm)
 
-        context['applied_comms'] = [] #TODO TEMP
+        context['applied_comms'] = []
         for jobApp in JobApplication.objects.all():
             if jobApp.applicant == self.request.user:
                 context['applied_comms'].append(jobApp.job.commission)
@@ -50,7 +36,6 @@ class ComListView(ListView):
         context['sorted_comms'] = sorted_comms
         return context
     
-
 
 class ComDetailView(DetailView):
     model = Commission
@@ -65,7 +50,16 @@ class ComDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(ComDetailView, self).get_context_data(**kwargs)
         context['total_manpower'] = 0
-        context['open_manpower'] = 0 #TODO Temp
+        for job in Job.objects.all():
+            if job.commission == self.get_object():
+                context['total_manpower'] += job.manpower_required
+
+        context['open_manpower'] = context['total_manpower']
+        for jobApp in JobApplication.objects.all():
+            if jobApp.job.commission == self.get_object():
+                if jobApp.status == 'Accepted':
+                    context['open_manpower'] -= 1
+
         context['form'] = JobAppForm()
         context['job'] = Job()
         context['jobApp_list'] = JobApplication.objects.all()

@@ -1,21 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
 {% block content %}
 
 <ul>
-    <li>{{ job.commission.title }}</li>
-    <li>{{ job.role }}</li>
-    <li>{{ job.manpower_required }}</li>
-    <li>{{ job.status }}</li>
-    <li>{{ job.entry }}</li>
-    <li>{{ job.created_on }}</li>
-    <li>{{ job.updated_on }}</li>
+    <h2>{{ job.commission.title }}</h2>
+    <h3>{{ job.role }}</h3>
+    <li>Manpower Required: {{ job.manpower_required }}</li>
+    <li>Status: {{ job.status }}</li>
+    <li>Details: {{ job.entry }}</li>
+    <li>Job created on {{ job.created_on }}</li>
+    <li>Job updated on {{ job.updated_on }}</li>
 </ul>
 
+{% if job.commission.author != user %}
 <h1>Apply to Job</h1>
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form }}
     <button type="submit">Apply</button>
 </form>
+{% endif %}
 
 <h2>Job Applications</h2>
 <ul>
@@ -23,7 +27,8 @@
         <li>{{ jobApp.job }}</li>
         <li>{{ jobApp.applicant }}</li>
         <li>{{ jobApp.status }}</li>
-        <br>
+        <button>Review Application</button>
+        <br><br>
 {% endfor %}
 </ul>
 
