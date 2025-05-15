@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Profile
 
+
 class ProfileInline(admin.StackedInline):
     model = Profile
     can_delete = False
