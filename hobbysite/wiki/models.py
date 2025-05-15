@@ -1,7 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from user_management.models import Profile
-# from django.contrib.auth.models import User
+from profile.models import Profile
 
 
 class ArticleCategory(models.Model):
@@ -24,9 +23,7 @@ class ArticleCategory(models.Model):
 class Article(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(
-        # 'user_management.Profile',
         Profile,
-        # User,
         on_delete=models.SET_NULL,
         null=True,
         editable=False,
@@ -59,9 +56,7 @@ class Article(models.Model):
 
 class Comment(models.Model):
     author = models.ForeignKey(
-        # 'user_management.Profile',
         Profile,
-        # User,
         on_delete=models.SET_NULL,
         null=True,
         editable=False,
