@@ -1,0 +1,14 @@
+{% extends 'wiki/base.html' %}
+{% load static %}
+
+{% block title %}{% endblock %}
+{% block content %}
+<a href="{% url 'wiki:article_list' %}">Wiki Article List</a>
+{% if request.user.is_authenticated %}
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Create article">
+    </form>
+{% endif %}
+{% endblock %}
