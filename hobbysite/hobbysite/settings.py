@@ -22,12 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'wiki',
     'blog',
     'forum',
-    'commissions'
+    'commissions',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -126,12 +127,17 @@ USE_TZ = True
 
 MEDIA_ROOT = BASE_DIR/'media'
 MEDIA_URL = '/media/'
-STATIC_URL = 'static/'
-STATIC_ROOT = [os.path.join(BASE_DIR, 'static')]
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = BASE_DIR/'media'
 MEDIA_URL = '/media/'
-LOGIN_REDIRECT_URL = '/blog/articles'
-LOGOUT_REDIRECT_URL = '/accounts/login'
+
+from .cdn.conf import * 
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Default primary key field type
