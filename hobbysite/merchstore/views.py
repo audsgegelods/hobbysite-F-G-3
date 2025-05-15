@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from .models import Product, ProductType, Transaction
 from .forms import ProductCreateForm, ProductUpdateForm, TransactionForm
+from user_management.models import User
 
 # Create your views here.
 
@@ -75,16 +76,22 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
             form.instance.status = 'Available'
         return super(ProductUpdateView, self).form_valid(form)
 
-class CartView(ListView):
+class CartView(LoginRequiredMixin, ListView):
     model = Transaction
     template_name = 'merchstore/cart.html'
+    redirect_field_name = '/accounts/login'
 
     def get_context_data(self, **kwargs):
         context = super(CartView, self).get_context_data(**kwargs)
-        context['owner_order'] = Transaction.objects.all().order_by(product__owner).values
+        context['sellers'] = User.objects.all()
         return context
 
-class TransactionView(ListView):
+class TransactionView(LoginRequiredMixin, ListView):
     model = Transaction
     template_name = 'merchstore/transactions.html'
+    redirect_field_name = '/accounts/login'
+    def get_context_data(self, **kwargs):
+        context = super(TransactionView, self).get_context_data(**kwargs)
+        context['buyers'] = User.objects.all()
+        return context
 

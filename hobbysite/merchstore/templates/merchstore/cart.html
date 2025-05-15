@@ -4,18 +4,25 @@
 {% block content %}
 
 <ul>
-
 <h2>Your Cart</h2>
-  {% for product in transaction.item.all %}
-  <dl>
-    <dt><h3>Products from {{product}}</h3></dt>
-  </dl>
-  <ol>
-    <h4>Items</h4>
-      {% for item in owner.item.Transaction.all %}
-      <li><strong>{{item.product}}</strong> <i>({{item.amount}})</i> </li>
-      {% endfor %}
-  </ol>
+  {% for seller in sellers %}
+    <dl>
+      {% if seller != user %}
+      <dt><h3>Sold by {{seller}}</h3></dt>
+      {% endif %}
+    </dl>
+    <ol>
+    {% for transaction in object_list %}
+      {% if transaction.product.owner == seller %}
+        {% if transaction.buyer == user %}
+          <li><strong>{{transaction.product.name}} ({{transaction.status}})</strong> </li>
+            <ul>
+              <li>{{transaction.amount}} item(/s)</li>
+            </ul>
+        {% endif %}
+      {%endif%}
+    {% endfor %}
+    </ol>
   {% endfor %}
 </ul>
 

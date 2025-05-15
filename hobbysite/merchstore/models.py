@@ -54,13 +54,13 @@ class Product(models.Model):
 class Transaction(models.Model):
     buyer = models.ForeignKey(
         User,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         null=True,
         related_name="buyer"
         )
     product = models.ForeignKey(
         Product,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         null=True,
         related_name="item"
         )

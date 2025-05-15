@@ -1,58 +1,30 @@
 {% extends 'merchstore/base.html' %}
 {% load static %}
-{% block title %} Merchandise {% endblock %}
+{% block title %} Transactions {% endblock %}
 {% block content %}
 
 <ul>
-
-<a href="{% url 'merchstore:itemcreate' %}">Add an Item</a>
-
-{% if request.user.is_authenticated %}
-  <h2>Your Products</h2>
-    {% for product_type in object_list.filter(owner={{request.user}}) %}
-      <dl>
-        <dt><h3>{{product_type}}</h3></dt>
-        <dd><i>{{product_type.description}}</i></dd>
-      </dl>
-      <ol>
-        <h4>Items</h4>
-          {% for product in product_type.product.all %}
-          <li><strong><a href='{{product.get_absolute_url}}'>{{product.name}}</a>:</strong> {{product.description}}</li>
-          {% endfor %}
-      </ol>
+<h2>Your Transactions</h2>
+  {% for buyer in buyers %}
+    <dl>
+      {% if buyer != user %}
+      <dt><h3>Bought by {{buyer}}</h3></dt>
+      {% endif %}
+    </dl>
+    <ol>
+    {% for transaction in object_list %}
+      {% if transaction.buyer == buyer %}
+        {% if transaction.product.owner == user %}
+          <li><strong>{{transaction.product.name}} ({{transaction.status}})</strong> </li>
+            <ul>
+              <li>{{transaction.amount}} item(/s)</li>
+            </ul>
+        {% endif %}
+      {%endif%}
     {% endfor %}
-    
-  <h2>All Products</h2>
-    {% for product_type in object_list.filter(owner!={{request.user}}) %}
-      <dl>
-        <dt><h3>{{product_type}}</h3></dt>
-        <dd><i>{{product_type.description}}</i></dd>
-      </dl>
-      <ol>
-        <h4>Items</h4>
-          {% for product in product_type.product.all %}
-          <li><strong><a href='{{product.get_absolute_url}}'>{{product.name}}</a>:</strong> {{product.description}}</li>
-          {% endfor %}
-      </ol>
-    {% endfor %}
-
-
-{% else %}
-<h2>All Products</h2>
-  {% for product_type in object_list %}
-  <dl>
-    <dt><h3>{{product_type}}</h3></dt>
-    <dd><i>{{product_type.description}}</i></dd>
-  </dl>
-  <ol>
-    <h4>Items</h4>
-      {% for product in product_type.product.all %}
-      <li><strong><a href='{{product.get_absolute_url}}'>{{product.name}}</a>:</strong> {{product.description}}</li>
-      {% endfor %}
-  </ol>
+    </ol>
   {% endfor %}
-{% endif %}
 </ul>
-
-
+<a href="{% url 'merchstore:items' %}">Return to Product Listings</a>
 {% endblock %}
+

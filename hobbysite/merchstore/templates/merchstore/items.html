@@ -19,12 +19,13 @@
           {% for product in product_type.product.all %}
             {% if product.owner == user %}
               <li><strong><a href='{{product.get_absolute_url}}'>{{product.name}} </strong> from {{product.owner}}</a>:<i>({{product.status}})</i></li>
-              <ol>
+              <ul>
                 <li>{{product.description}}
-              </ol>
+              </ul>
             {% endif %}
           {% endfor %}
       </ol>
+      <a href="{% url 'merchstore:sellertransactions' %}">Transactions</a>
     {% endfor %}
     
   <h2>All Products</h2>
@@ -38,12 +39,13 @@
           {% for product in product_type.product.all %}
             {% if product.owner != user %}
               <li><strong><a href='{{product.get_absolute_url}}'>{{product.name}} </strong> from {{product.owner}}</a>:<i>({{product.status}})</i></li>
-              <ol>
+              <ul>
                 <li>{{product.description}}
-              </ol>
+              </ul>
             {% endif %}
           {% endfor %}
       </ol>
+      <a href="{% url 'merchstore:cart' %}">Cart</a>
     {% endfor %}
 
 
@@ -58,14 +60,14 @@
       <h4>Items</h4>
         {% for product in product_type.product.all %}
         <li><strong><a href='{{product.get_absolute_url}}'>{{product.name}} </strong> from {{product.owner}}</a>:<i>({{product.status}})</i></li>
-              <ol>
+              <ul>
                 <li>{{product.description}}
-              </ol>
+              </ul>
         {% endfor %}
     </ol>
     {% endfor %}
+    <a href="{% url 'merchstore:cart' %}">Cart</a>
   {% endif %}
   </ul>
-<a href="{% url 'merchstore:cart' %}">Cart</a>
 
 {% endblock %}
