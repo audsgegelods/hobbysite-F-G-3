@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from .models import Product, ProductType, Transaction
 from .forms import ProductCreateForm, ProductUpdateForm, TransactionForm
-from user_management.models import User
+from profile.models import Profile
 
 # Create your views here.
 
@@ -87,7 +87,7 @@ class CartView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(CartView, self).get_context_data(**kwargs)
-        context['sellers'] = User.objects.all()
+        context['sellers'] = Profile.objects.all()
         return context
 
 
@@ -98,5 +98,5 @@ class TransactionView(LoginRequiredMixin, ListView):
     
     def get_context_data(self, **kwargs):
         context = super(TransactionView, self).get_context_data(**kwargs)
-        context['buyers'] = User.objects.all()
+        context['buyers'] = Profile.objects.all()
         return context

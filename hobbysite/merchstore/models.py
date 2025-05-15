@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from user_management.models import User
+from profile.models import Profile
 
 
 # Create your models here.
@@ -24,7 +24,7 @@ class Product(models.Model):
             related_name="product"
             )
     owner = models.ForeignKey(
-            User,
+            Profile,
             on_delete=models.CASCADE,
             null=True,
             related_name="owner"
@@ -58,7 +58,7 @@ class Product(models.Model):
 
 class Transaction(models.Model):
     buyer = models.ForeignKey(
-        User,
+        Profile,
         on_delete=models.SET_NULL,
         null=True,
         related_name="buyer"
