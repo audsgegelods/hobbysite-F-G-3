@@ -9,11 +9,5 @@ AWS_S3_OBJECT_PARAMETERS = {
 }
 AWS_LOCATION = "https://hobbysite-bucket.sgp1.digitaloceanspaces.com"
 
-STORAGES = {
-	'default' : {
-		'BACKEND': 'hobbysite.cdn.backends.MediaRootS3Boto3Storage'
-	},
-	'staticfiles':{
-		'BACKEND': 'hobbysite.cdn.backends.StaticRootS3Boto3Storage'
-	}
-}
+DEFAULT_FILE_STORAGE = 'hobbysite-bucket.cdn.backends.MediaRootS3Boto3Storage'
+STATICFILES_STORAGE = 'hobbysite-bucket.cdn.backends.StaticRootS3Boto3Storage'
