@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'merchstore',
     'wiki',
     'forum',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -130,6 +131,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [BASE_DIR/'static']
 
+from .cdn.conf import * 
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
