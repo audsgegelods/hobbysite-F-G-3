@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from user_management.models import User
+from profile.models import Profile
 
 
 # Create your models here.
