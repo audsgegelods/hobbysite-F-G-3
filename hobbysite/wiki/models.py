@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from user_management.models import Profile
+# from django.contrib.auth.models import User
 
 
 class ArticleCategory(models.Model):
@@ -25,6 +26,7 @@ class Article(models.Model):
     author = models.ForeignKey(
         # 'user_management.Profile',
         Profile,
+        # User,
         on_delete=models.SET_NULL,
         null=True,
         editable=False,
@@ -59,6 +61,7 @@ class Comment(models.Model):
     author = models.ForeignKey(
         # 'user_management.Profile',
         Profile,
+        # User,
         on_delete=models.SET_NULL,
         null=True,
         editable=False,
@@ -68,12 +71,13 @@ class Comment(models.Model):
         Article,
         on_delete=models.CASCADE,
         null=True,
-        related_name='comments'
+        related_name='comments',
+        editable=False
+
     )
     entry = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True, editable=False)
     updated_on = models.DateTimeField(auto_now=True)
-
 
     class Meta:
         ordering = ['created_on']
