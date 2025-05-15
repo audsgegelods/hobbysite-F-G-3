@@ -27,7 +27,7 @@ class IndividProductView(DetailView):
         product = Product.objects.get(pk=self.kwargs['pk'])
         if form.is_valid():
             form.instance.product = product
-            form.instance.status =  'On cart'
+            form.instance.status = 'On cart'
             form.instance.amount = request.POST.get('amount')
             product.stock -= int(form.instance.amount)
             if product.stock < 1:
@@ -44,9 +44,11 @@ class IndividProductView(DetailView):
             context['form'] = form
             return self.render_to_response(context)
 
+
 class AllItemsView(ListView):
     model = ProductType
     template_name = 'merchstore/items.html'
+
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
@@ -62,6 +64,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
             form.instance.status = 'Available'
         return super(ProductCreateView, self).form_valid(form)
 
+
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductUpdateForm
@@ -76,6 +79,7 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
             form.instance.status = 'Available'
         return super(ProductUpdateView, self).form_valid(form)
 
+
 class CartView(LoginRequiredMixin, ListView):
     model = Transaction
     template_name = 'merchstore/cart.html'
@@ -86,12 +90,13 @@ class CartView(LoginRequiredMixin, ListView):
         context['sellers'] = User.objects.all()
         return context
 
+
 class TransactionView(LoginRequiredMixin, ListView):
     model = Transaction
     template_name = 'merchstore/transactions.html'
     redirect_field_name = '/accounts/login'
+    
     def get_context_data(self, **kwargs):
         context = super(TransactionView, self).get_context_data(**kwargs)
         context['buyers'] = User.objects.all()
         return context
-

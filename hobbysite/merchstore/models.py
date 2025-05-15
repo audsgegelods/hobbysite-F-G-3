@@ -33,11 +33,15 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=999999999, decimal_places=2)
     stock = models.IntegerField(default=0)
     status_choices = {
-        'Out of Stock' : 'NO_STOCK',
-        'On Sale' : 'SALE',
-        'Available' : 'STOCK',
+        'Out of Stock': 'NO_STOCK',
+        'On Sale': 'SALE',
+        'Available': 'STOCK',
     }
-    status = models.CharField(max_length=255, choices=status_choices, default='AVAILABLE')
+    status = models.CharField(
+        max_length=255,
+        choices=status_choices,
+        default='AVAILABLE'
+        )
 
     def __str__(self):
         return self.name
@@ -50,7 +54,8 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('merchstore:itempage', args=[self.pk])
-    
+
+
 class Transaction(models.Model):
     buyer = models.ForeignKey(
         User,
@@ -66,11 +71,15 @@ class Transaction(models.Model):
         )
     amount = models.IntegerField()
     status_choices = {
-        'On cart' : 'CART',
-        'To Pay' : 'PAY',
-        'To Ship' : 'SHIPPING',
-        'To Recieve' : 'TRANSIT',
-        'Delivered' : 'DONE'
+        'On cart': 'CART',
+        'To Pay': 'PAY',
+        'To Ship': 'SHIPPING',
+        'To Recieve': 'TRANSIT',
+        'Delivered': 'DONE'
     }
-    status = models.CharField(max_length=255, choices=status_choices, default='CART')
+    status = models.CharField(
+        max_length=255,
+        choices=status_choices,
+        default='CART'
+        )
     created_on = models.DateTimeField(auto_now_add=True)

@@ -28,6 +28,7 @@ class ProductAdmin(admin.ModelAdmin):
         })
     ]
 
+
 class TransactionAdmin(admin.ModelAdmin):
     model = Transaction
 
