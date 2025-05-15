@@ -1,42 +1,108 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	{% if article.header_image %}
-		<img src="{{ object.header_image.url }}" alt="no image here yet">
-	{% endif %}
-	<h2>{{ article.title }}</h2>
-	<ol>
-		<li>Category: {{ article.category.name }}</li>
-		<li>Author: {{ article.author }}</li>
-		<li>Entry: {{ article.entry }}</li>
-		<li>Created on: {{ article.created_on }}</li>
-		<li>Updated on: {{ article.updated_on }}</li>
-	</ol>
-	<a href="{% url 'blog:article_list' %}">Article List Here</a>
-
-	<h2>Other articles by {{ article.author }}</h2>
-	<ol>
-		{% for other_article in all_objects %}
-			{% if other_article.author == article.author and other_article.title != article.title %}
-			<li><a href='{{ other_article.get_absolute_url }}'>{{ other_article.title }}</a></li>
+	
+<div class="container text-center">
+	 <div class="row">
+		<div class="col-md-8 mb-3">
+			{% if article.header_image %}
+				<img src="{{ object.header_image.url }}" 
+				   class="img-fluid"
+				   style="max-height: 300px; width: auto; object-fit: cover;"
+				   alt="no image here yet">
+				<br>
 			{% endif %}
-		{% endfor %}
-	</ol>
+			<div class="card text-center border-info">
+				<div class="card-body">
+					
+					<h5 class="card-title">{{ article.title }}</h5>
+					<p class="card-text">{{ article.entry }}</p>
+					
+					{% if user == article.author %}
+						<h3><a href="{% url "blog:article_edit" pk=article.pk %}" class="btn btn-warning">Edit</a></h3>
+					{% endif %}
+				</div>
+			</div>
+		</div>
 
-	{% if user == article.author %}
-		<h3><a href='{% url "blog:article_edit" pk=article.pk %}'>Edit the article here</a></h3>
-	{% endif %}
-	<h1>Comments</h1>
-	{% if user.is_authenticated %}
-		<form method="post">
-			{% csrf_token %}
-			{{ form }}
-			<input type="submit" value="Submit">
-		</form>
-	{% endif %}
-	<ol>
-		{% for comment in article.comments.all %}
-			<li>{{ comment.entry }}</li>
-		{% endfor %}
-	</ol>
+		<div class="col-md-4 mb-3">
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col"><b>Author</b><p>{{ article.author }}</p></div>
+						<div class="col"><b>Category</b><p>{{ article.category.name }}</p></div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col"><b>Created on</b><p>{{ article.created_on }}</p></div>
+						<div class="col"><b>Last updated</b><p>{{ article.updated_on }}</p></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="container mt-4">
+	<div class="row">
+		<div class="col-md-8 mb-3">
+			<div class="card border-warning">
+				<div class="card-body">
+					
+					{% if user.is_authenticated %}
+						<form method="post">
+							{% csrf_token %}
+							{{ form.as_p }}
+							<input type="submit" value="Submit" class="btn btn-warning">
+						</form>
+					{% endif %}
+					
+					<h2>Comments</h2>
+					<ol>
+						{% for comment in article.comments.all %}
+							<li>
+								{{ comment.author }}: {{ comment.entry }}<br>
+								Commented on: {{ comment.created_on }}
+							</li>
+							{% empty %}
+							<p>No comments yet.</p>
+						{% endfor %}
+					</ol>
+			  
+				</div>
+			</div>
+		</div>
+	
+		<div class="col-md-4 mb-3">
+			<div class="card">
+				<div class="card-body">
+					<h2>Other articles by {{ article.author }}</h2>
+					<ul class="list-unstyled">
+					{% for other_article in all_objects %}
+						{% if other_article.author == article.author and other_article.title != article.title %}
+							  <li><a href='{{ other_article.get_absolute_url }}'>{{ other_article.title }}</a></li>
+						{% endif %}
+					{% endfor %}
+					<a href="{% url 'blog:article_list' %}" class="btn btn-primary">Back to Blog Articles</a>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 {% endblock %}

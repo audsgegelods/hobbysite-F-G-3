@@ -47,5 +47,5 @@ class ThreadCreateView(LoginRequiredMixin, CreateView):
 
 class ThreadUpdateView(LoginRequiredMixin, UpdateView):
     model = Thread
-    fields = ['title', 'category', 'entry']
+    fields = ['title', 'category', 'entry', 'optional_image']
     template_name = 'thread_form.html'

@@ -1,54 +1,93 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<h2>{{ thread.title }}</h2>
-	
-	{% if thread.optional_image %}
-		<img src="{{ thread.optional_image.url }}" 
-		alt="image not found" 
-		class="img-fluid">
-	{% endif %}
-	
-	<p>
-	{{ thread.entry }}
-	</p>
-	
-	<ul>
-		<li>Category: {{ thread.category.name }}</li>
-		<li>Author: {{ thread.author }}</li>
-		<li>Created on: {{ thread.created_on }}</li>
-		<li>Updated on: {{ thread.updated_on }}</li>
-	</ul>
 
-	{% if user == thread.author %}
-		<h3><a href='{% url "forum:thread_update" pk=thread.pk %}'>Edit the thread here</a></h3>
-	{% endif %}
-	<h1>Comments</h1>
-	<ol>
-		{% for comment in thread.comments.all %}
-			<li>{{ comment.author }}: {{ comment.entry }} 
-				<br>Commented on: {{ comment.created_on }}
-			</li>
-		{% endfor %}
-	</ol>
-	{% if user.is_authenticated %}
-		<form method="post">
-			{% csrf_token %}
-			{{ form }}
-			<input type="submit" value="Submit">
-		</form>
-	{% endif %}
 
-	<h1>Other threads in {{ thread.category }}</h1>
-	<ul>
-		{% for other_thread in all_objects %}
-			{% if other_thread.category == thread.category and other_thread.title != thread.title %}
-			<li><a href='{{ other_thread.get_absolute_url }}'>{{ other_thread.title }}</a></li>
-			{% endif %}
-		{% endfor %}
-	</ul>
-	
-	<h1><a href="{% url 'forum:thread_list' %}">Go Back to Thread List Here</a></h1>
+<div class="container">
+	 <div class="row">
+		<div class="col-md-8 mb-3">
+			<div class="card text-center border-info">
+				<div class="card-body">
+					<h5 class="card-title">{{ thread.title }}</h5>
+					<p class="card-text">{{ thread.entry }}</p>
+				</div>
+				{% if thread.optional_image %}
+					<img src="{{ thread.optional_image.url }}" 
+					   class="card-img-bottom img-fluid"
+					   style="max-height: 300px; object-fit: contain;"
+					   alt="...">
+					<br>
+				{% endif %}
+				{% if user == thread.author %}
+					<h3><a href="{% url 'forum:thread_update' pk=thread.pk %}" class="btn btn-warning">Edit</a></h3>
+				{% endif %}
+			</div>
+		</div>
 
+		<div class="col-md-4 mb-3">
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col"><b>Author</b><p>{{ thread.author }}</p></div>
+						<div class="col"><b>Category</b><p>{{ thread.category.name }}</p></div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col"><b>Created on</b><p>{{ thread.created_on }}</p></div>
+						<div class="col"><b>Last updated</b><p>{{ thread.updated_on }}</p></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+		
+<div class="container mt-4">
+	<div class="row">
+		<div class="col-md-8 mb-3">
+			<div class="card border-warning">
+				<div class="card-body">
+					<h2>Comments</h2>
+					<ol>
+						{% for comment in thread.comments.all %}
+							<li>
+								{{ comment.author }}: {{ comment.entry }}<br>
+								Commented on: {{ comment.created_on }}
+							</li>
+							{% empty %}
+							<p>No comments yet.</p>
+						{% endfor %}
+					</ol>
+			  
+					{% if user.is_authenticated %}
+						<form method="post">
+							{% csrf_token %}
+							{{ form.as_p }}
+							<input type="submit" value="Submit" class="btn btn-warning">
+						</form>
+					{% endif %}
+				</div>
+			</div>
+		</div>
 	
+		<div class="col-md-4 mb-3">
+			<div class="card">
+				<div class="card-body">
+					<h2>Other threads in {{ thread.category }}</h2>
+					<ul class="list-unstyled">
+					{% for other_thread in all_objects %}
+						{% if other_thread.category == thread.category and other_thread.title != thread.title %}
+							<li>
+							  <a href="{{ other_thread.get_absolute_url }}">{{ other_thread.title }}</a>
+							</li>
+						{% endif %}
+					{% endfor %}
+					<a href="{% url 'forum:thread_list' %}" class="btn btn-primary">Back to Threads</a>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+		
 {% endblock %}

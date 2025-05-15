@@ -17,13 +17,15 @@ class ArticleListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ArticleListView, self).get_context_data(**kwargs)
-        random_articles = [
-            random.randint(1, len(Article.objects.all()))
-            for _ in range(5)
-        ]
-        context['random_articles'] = []
-        for i in random_articles:
-            context['random_articles'].append(Article.objects.get(pk=i))
+        if len(Article.objects.all()) > 1:
+            all_articles = Article.objects.all()
+            random_articles = [
+                random.randint(0, len(all_articles)-1)
+                for _ in range(5)
+            ]
+            context['random_articles'] = []
+            for i in random_articles:
+                context['random_articles'].append(all_articles[i])
         return context
 
 

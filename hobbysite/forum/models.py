@@ -52,7 +52,8 @@ class Comment(models.Model):
     author = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
-        null=True
+        null=True,
+        related_name="forum_comments"
     )
     thread = models.ForeignKey(
         Thread,
