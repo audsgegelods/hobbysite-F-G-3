@@ -1,12 +1,12 @@
 from django.db import models
 from django.urls import reverse
-from user_management.models import User
+from profile.models import Profile
 
 
 class Commission(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    author = models.ForeignKey(User,
+    author = models.ForeignKey(Profile,
                             on_delete=models.CASCADE,
                             related_name="author",
                             null=True)
@@ -59,7 +59,7 @@ class JobApplication(models.Model):
     job = models.ForeignKey(Job,
                             on_delete=models.CASCADE,
                             related_name='job')
-    applicant = models.ForeignKey(User,
+    applicant = models.ForeignKey(Profile,
                                   on_delete=models.CASCADE,
                                   related_name='applicant',
                                   null=True) #TODO: TEMP
