@@ -43,9 +43,16 @@
 {% endif %}
 
 <div class="container">
-    <h2>Commissions<h2>
+    <h2>Commissions</h2>
     {% for commission in sorted_comms %}
-        <h3><a href={{ commission.get_absolute_url }}>{{ commission.title }}</a>   -{{ commission.status }}</h3>
+    <div class="card" style="width: 18rem;">
+        <div class="card-header">{{ commission.title }}</div>
+        <div class="card-body">
+            <p class="card-text">Status: {{ commission.status}}</p>
+            <a href="{{ commission.get_absolute_url }}" class="btn btn-primary btn-sm">Details</a>
+        </div>    
+    </div>
+    <br><br>
     {% endfor %}
 </div>
 
