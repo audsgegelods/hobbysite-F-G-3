@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv()
@@ -127,7 +127,7 @@ MEDIA_ROOT = BASE_DIR/'media'
 MEDIA_URL = '/media/'
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR/'static']
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = [os.path.join(BASE_DIR, 'staticfiles')]
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
