@@ -2,32 +2,16 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 
-from .models import ArticleCategory, Article
+from .models import ArticleCategory, Article, Comment
 from .forms import ArticleForm, CommentForm
 
 
 class ArticleListView(ListView):
     model = ArticleCategory
     template_name = 'wiki/article_list.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['categories'] = ArticleCategory.objects.all()
-        context['form'] = ArticleForm()
-        return context
-
-    def post(self, request, *args, **kwargs):
-        # form = ArticleForm(request.POST, initial={'author': self.request.user})
-        form = ArticleForm(request.POST.update({'author': self.request.user, 'article': self.get_object()}))
-        if form.is_valid():
-            form.save()
-            return self.get(request, *args, **kwargs)
-        else:
-            self.object_list = self.get_queryset(**kwargs)
-            context = self.get_context_data(**kwargs)
-            context['form'] = form
-            return self.render_to_response(context)
+    # redirect_field_name = 'wiki:article_create'
 
 
 class ArticleDetailView(DetailView):
@@ -37,14 +21,14 @@ class ArticleDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = CommentForm()
+        context['all_objects'] = Article.objects.all()
         return context
-    
+
     def post(self, request, *args, **kwargs):
-        # form = CommentForm(request.POST)
-        form = CommentForm(request.POST.update({'author': self.request.user, 'article': self.get_object()}))
-        # form = CommentForm({'author': self.request.user, 'article': self.get_object()})
-        # # form = CommentForm(request.POST, initial={'author': self.request.user, 'article': self.get_object()})
+        form = CommentForm(request.POST)
         if form.is_valid():
+            form.instance.author = self.request.user
+            form.instance.article = self.get_object()
             form.save()
             return self.get(request, *args, **kwargs)
         else:
@@ -53,16 +37,21 @@ class ArticleDetailView(DetailView):
             context['form'] = form
             return self.render_to_response(context)
 
+
 class ArticleCreateView(LoginRequiredMixin, CreateView):
-    model = Article
     template_name = 'wiki/article_form.html'
     form_class = ArticleForm
 
     def form_valid(self, form):
-        form.author = self.request.user
-        return super().form_valid(form)
+        form.instance.author = self.request.user
+        return super(ArticleCreateView, self).form_valid(form)
+
 
 class ArticleUpdateView(LoginRequiredMixin, UpdateView):
-    model = Article
     template_name = 'wiki/article_form.html'
     form_class = ArticleForm
+    success_url = reverse_lazy('wiki:article_detail')
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super(ArticleUpdateView, self).form_valid(form)
