@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	
+	<div class="container text-center">
+		<h1>Forum Threads</h1>
+		<br><br><br>
+	</div>
+	
+	
+	<div class="container text-left">
+		
+		<div class="row">
+			<div class="col">
+				<h2>Your Threads</h2>
+				{% for category in object_list %}
+					<h3>{{ category.name }}</h3>
+					<p>{{ category.description }}</p>
+					<ul>
+						{% for thread in category.thread_set.all %}
+							{% if thread.author == user %}
+									<li><a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a>
+									by {{ thread.author }}</li>
+							{% endif %}
+						{% endfor %}
+					</ul>
+				{% endfor %}
+			</div>
+			<div class="col">
+				<h2>All Threads</h2>
+				{% for category in object_list %}
+					<h3>{{ category.name }}</h3>
+					<p>{{ category.description }}</p>
+					<ul>
+						{% for thread in category.thread_set.all %}
+							{% if thread.author != user %}
+									<li><a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a>
+									by {{ thread.author }}</li>
+							{% endif %}
+						{% endfor %}
+					</ul>
+				{% endfor %}
+			</div>
+		</div>
+		
+		<a href="{% url 'forum:thread_create' %}" class="btn btn-warning">Create a Thread</a>
+	</div>
+	
+{% endblock %}

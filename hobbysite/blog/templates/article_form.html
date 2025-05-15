@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container text-center">
+
+<form method="post"enctype="multipart/form-data">
+	{% csrf_token %}
+	{{ form }}
+	<input type="submit" value="Submit" class="btn btn-warning">
+</form>
+
+<a href="{% url 'blog:article_list' %}" class="btn btn-primary">Back to Blog Articles</a>
+
+</div>
+
+
+{% endblock %}

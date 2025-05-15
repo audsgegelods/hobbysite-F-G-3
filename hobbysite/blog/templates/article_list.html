@@ -1,13 +1,65 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<ol>
-		{% for article in object_list %}
-			<li>
-				<a href='{{ article.get_absolute_url }}'>
-				{{ article.title }}
-				</a>
-			</li>
+<style type="text/css">
+	.column{
+		float: left;
+		max-height: 100%;
+		height: auto;
+		width: auto;
+		overflow: hidden;
+	}
+</style>
+
+<div class="container text-center">
+	<h1>Blog Articles</h1>
+	<br><br><br>
+</div>
+
+<div class="container text-left">
+
+<div class="row">
+	<div class="col">
+		<h2>Your Articles</h2>
+		{% for category in object_list %}
+			<h3>{{ category.name }}</h3>
+			<ul>
+				{% for article in category.articles.all %}
+					{% if article.author == user %}
+						<li><a href='{{ article.get_absolute_url }}'>{{ article.title }}</a></li>
+					{% endif %}
+				{% endfor %}
+			</ul>
 		{% endfor %}
-	</ol>
+		<a href="{% url 'blog:article_create' %}" class="btn btn-warning">Create an Article</a>
+	</div>
+	
+	<div class="col">
+		<h2>All Articles</h2>
+		{% for category in object_list %}
+			<h3>{{ category.name }}</h3>
+			<ul>
+				{% for article in category.articles.all %}
+					{% if article.author != user %}
+						<li><a href='{{ article.get_absolute_url }}'>{{ article.title }}</a></li>
+					{% endif %}
+				{% endfor %}
+			</ul>
+		{% endfor %}
+	</div>
+</div>
+	
+</div>
+
+<div class="container text-center">
+	<h2>Image Gallery</h2>
+	<div>
+	{% for random_article in random_articles %}
+		{% if random_article.header_image %}
+			<div class='column'><img src="{{ random_article.header_image.url }}" alt="no image here yet"></div>
+		{% endif %}
+	{% endfor %}
+	</div>
+</div>
+
 {% endblock %}
