@@ -29,11 +29,15 @@
 {% if job.commission.author != user %}
 <div class="container">
     <h2>Apply to Job</h2>
+    {% if acceptedJobAppCount != job.manpower_required %}
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form }}
         <button type="submit">Apply</button>
     </form>
+    {% else %}
+    <p> Job Slots are Full! </p>
+    {% endif %}
 </div>
 {% else %}
 <div class="container">

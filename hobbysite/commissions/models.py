@@ -16,8 +16,7 @@ class Commission(models.Model):
         ('Completed', 'Completed'),
         ('Discontinued', 'Discontinued'),
     )
-    status = models.CharField(max_length=14, choices=STATUS_CHOICES)
-
+    status = models.CharField(max_length=14, choices=STATUS_CHOICES, default='Open')
     people_required = models.IntegerField(default=0)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -50,7 +49,7 @@ class Job(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['status', '-manpower_required', 'role']
+        ordering = ['-status', '-manpower_required', 'role']
 
         verbose_name = 'job'
         verbose_name_plural = 'jobs'

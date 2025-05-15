@@ -1,11 +1,12 @@
 from .models import Commission, Job, JobApplication
-from .forms import JobAppForm
+from .forms import JobForm, JobAppForm
 from django.db.models import  Case, When
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.shortcuts import redirect
 
 
 class ComListView(ListView):
@@ -89,9 +90,13 @@ class JobDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['form'] = JobAppForm()
         context['jobApps'] = []
+        context['acceptedJobApps'] = []
         for jobApp in JobApplication.objects.all():
             if jobApp.job == self.get_object():
                 context['jobApps'].append(jobApp)
+            if jobApp.status == 'Accepted' and jobApp.job == self.get_object():
+                context['acceptedJobApps'].append(jobApp)
+        context['acceptedJobAppCount'] = len(context['acceptedJobApps'])
 
         return context
     
@@ -109,16 +114,50 @@ class JobDetailView(LoginRequiredMixin, DetailView):
             return self.render_to_response(context)
 
 
+class JobAddView(LoginRequiredMixin, DetailView):
+    model = Commission
+    template_name = 'job-add.html'
+    redirect_field_name = 'login.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = JobForm()
+        return context
+
+    def get_success_url(self):
+        return reverse('commissions:detail', kwargs={'pk': self.object.pk})
+    
+    def post(self, request, *args, **kwargs):
+        form = JobForm(request.POST)
+        if form.is_valid():
+            form.instance.commission = self.get_object()
+            form.save()
+            return redirect('commissions:detail', pk=self.get_object().pk)
+        else:
+            self.object_list = self.get_queryset(**kwargs)
+            context = self.get_context_data(**kwargs)
+            context['form'] = form
+            return self.render_to_response(context)
+    
+    
+
+
 class ComCreateView(LoginRequiredMixin, CreateView):
     model = Commission
     template_name = 'commission-add.html'
     redirect_field_name = 'login.html'
-    fields = '__all__'
+    fields = ['title', 'description']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
     def form_valid(self, form):
-        author = self.request.user
-        form.instance.author = author
+        form.instance.author = self.request.user
         return super(ComCreateView, self).form_valid(form)
+    
+    def get_success_url(self):
+        return reverse('commissions:job_add', kwargs={'pk': self.object.pk})
 
 
 class ComUpdateView(LoginRequiredMixin, UpdateView):
