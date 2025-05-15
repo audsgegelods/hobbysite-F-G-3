@@ -22,15 +22,10 @@
     <form method = "POST">
         {% csrf_token %}
         {{form}}
-        {% if product.stock < 1 %}
-        <button type="submit" disabled>Buy</button>
+        {% if product.stock > 0 %}
+            <button type = "submit" value = "Submit">Buy</button>
         {% else %}
-            {% if request.user.is_authenticated %}
-                <button type = "submit" onclick="location.href='{{cart}}'">Buy</button>
-            {% else %}
-                <button onclick="location.href='{% url 'login' %}'">Buy</button>
-            {% endif %}
-
+            <button type="submit" disabled>Buy</button>
         {% endif %}
     </form>
 {% endif %}
@@ -41,6 +36,8 @@
     {% endif %}
 {% endif %}
 
+<br>
+<a href="{% url 'merchstore:items' %}">Return to Product Listings</a>
 
 
 {% endblock %}

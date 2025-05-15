@@ -33,9 +33,9 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=999999999, decimal_places=2)
     stock = models.IntegerField(default=0)
     status_choices = {
-        'NO_STOCK' : 'Out of Stock',
-        'SALE' : 'On Sale',
-        'AVAILABLE' : 'Available',
+        'Out of Stock' : 'NO_STOCK',
+        'On Sale' : 'SALE',
+        'Available' : 'STOCK',
     }
     status = models.CharField(max_length=255, choices=status_choices, default='AVAILABLE')
 
@@ -66,11 +66,11 @@ class Transaction(models.Model):
         )
     amount = models.IntegerField()
     status_choices = {
-        'CART' : 'On cart',
-        'PAY' : 'To Pay',
-        'SHIP' : 'To Ship',
-        'RECIEVE' : 'To Recieve',
-        'DELIVERED' : 'Delivered'
+        'On cart' : 'CART',
+        'To Pay' : 'PAY',
+        'To Ship' : 'SHIPPING',
+        'To Recieve' : 'TRANSIT',
+        'Delivered' : 'DONE'
     }
     status = models.CharField(max_length=255, choices=status_choices, default='CART')
     created_on = models.DateTimeField(auto_now_add=True)

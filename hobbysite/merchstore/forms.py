@@ -5,7 +5,7 @@ from .models import Product, Transaction
 class ProductCreateForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ['owner']
 
 class ProductUpdateForm(forms.ModelForm):
     class Meta:
@@ -15,4 +15,4 @@ class ProductUpdateForm(forms.ModelForm):
 class TransactionForm(forms.ModelForm):
     class Meta:
         model = Transaction
-        fields = '__all__'
+        fields = ['amount']

@@ -6,19 +6,20 @@
 <ul>
 
 <h2>Your Cart</h2>
-  {% for Transaction in object_list %}
+  {% for product in transaction.item.all %}
   <dl>
-    <dt><h3>{{product_type}}</h3></dt>
-    <dd><i>{{product_type.description}}</i></dd>
+    <dt><h3>Products from {{product}}</h3></dt>
   </dl>
   <ol>
     <h4>Items</h4>
-      {% for product in product_type.product.all %}
-      <li><strong><a href='{{product.get_absolute_url}}'>{{product.name}}</a>:</strong> {{product.description}}</li>
+      {% for item in owner.item.Transaction.all %}
+      <li><strong>{{item.product}}</strong> <i>({{item.amount}})</i> </li>
       {% endfor %}
   </ol>
   {% endfor %}
 </ul>
+
+<a href="{% url 'merchstore:items' %}">Return to Product Listings</a>
 
 
 {% endblock %}
