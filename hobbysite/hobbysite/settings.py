@@ -126,11 +126,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = [os.path.join(BASE_DIR, 'static')]
-<<<<<<< HEAD
 MEDIA_ROOT = BASE_DIR/'media'
 MEDIA_URL = '/media/'
-=======
->>>>>>> 40ecc53134f0187aa2f89fe4329f1ff0ef4eb7f7
 LOGIN_REDIRECT_URL = '/blog/articles'
 LOGOUT_REDIRECT_URL = '/accounts/login'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
