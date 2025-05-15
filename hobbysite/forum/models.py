@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from user_management.models import User
+from profile.models import Profile
 
 
 class ThreadCategory(models.Model):
@@ -18,7 +18,7 @@ class ThreadCategory(models.Model):
 class Thread(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(
-        User,
+        Profile,
         on_delete=models.SET_NULL,
         null=True,
         editable=False
@@ -50,7 +50,7 @@ class Thread(models.Model):
 
 class Comment(models.Model):
     author = models.ForeignKey(
-        User,
+        Profile,
         on_delete=models.SET_NULL,
         null=True,
         related_name="forum_comments"
