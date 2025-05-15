@@ -1,22 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
 {% block content %}
 
-<h2>{{ commission.title }}</h2>
-<ul>
-    <li>{{ commission.description }}</li>
-    <li>People required: {{ commission.people_required }}</li>
-    <li>Created on: {{ commission.created_on }}</li>
-    <li>Last updated: {{ commission.updated_on }}</li>
-</ul>
-
-<h3>Comments</h3>
-<ul>
-    {% for entry in commission.commission.all %}
-    <li>{{ entry.entry }}</li>
-    <li>Comment created on {{ entry.created_on }}</li>
-    <li>Comment updated on {{ entry.updated_on }}</li>
+<div class="container">
+    <a href={% url 'commissions:list' %}>Commission List</a>
+    <h1>{{ commission.title }}</h1>
+    <p style="margin-right:350px">{{ commission.description }}</p>
+    <hr style="margin-top:30px;">
+    <div class="card" style="width: 40rem; margin-top:30px">
+        <div class="card-body">
+            <div class="row justify-content-start">
+                <div class="col"><b>Author</b> <p>{{ commission.author }}</p></div>
+                <div class="col"><b>People Required</b> <p>{{ total_manpower}}</p></div>
+                <div class="col"><b>Open Positions</b> <p>{{ open_manpower }}</p></div>
+            </div>
+            <br>
+            <div class="row justify-content-start">
+                <div class="col"><b>Status</b> <p>{{ commission.status }}</p></div>
+                <div class="col"><b>Created on</b> <p>{{ commission.created_on }}</p></div>
+                <div class="col"><b>Last updated</b> <p>{{ commission.updated_on }}</p></div>
+            </div>
+        </div>
+    </div>
     <br>
-    {% endfor %}
-</ul>
+    <a href={% url 'commissions:edit' pk=object.pk %} class='btn btn-warning'>Edit Commission</a>
+    <hr style="margin-top:30px;">
+</div>    
+<br>
 
+<div class="container">
+    <h2>Jobs</h2>
+        {% for job in commission.job.all %}
 
+        <div class="card" style="width: 32rem">
+            <div class="card-header"><b>{{ job.role }}</b></div>
+            <div class="card-body">
+                <p class="card-text">{{ job.entry }}</p>
+                <br>
+                <div class="row justify-content-start">
+                    <div class="col"><b>Status</b> <p>{{ job.status }}</p></div>
+                    <div class="col"><b>Manpower Required</b> <p>{{ job.manpower_required }}</p></div>
+                </div>
+                {% if commission.author == user %}
+                    <a href={% url 'commissions:job_detail' pk=job.pk %} class="btn btn-warning">View Job Details & Review Applications</a>
+                {% else %}
+                    <a href={% url 'commissions:job_detail' pk=job.pk %} class="btn btn-primary">View Job Details & Apply</a>
+                {% endif %}
+            </div>
+        </div>
+        <br>
+        {% endfor %}
+</div>
 {% endblock %}

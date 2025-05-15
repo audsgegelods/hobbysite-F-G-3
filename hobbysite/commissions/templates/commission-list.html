@@ -1,7 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
 {% block content %}
 
-{% for commission in commission_list %}
-<h3><a href={{ commission.get_absolute_url }}>{{ commission.title }}</a></h3>
-{% endfor %}
+{% if user.is_authenticated %}
+<div class="container">
+    <div class="row justify-content-start">
+        <div class="col">
+            <div class="container">
+                <h2>Your Commissions</h2>
+                <hr>
+                <a href={% url 'commissions:add' %} class="btn btn-warning" style="margin-bottom:30px;">Create Commission</a>
+                {% for commission in created_comms %}
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-header">{{ commission.title }}</div>
+                        <div class="card-body">
+                            <p class="card-text">Status: {{ commission.status}}</p>
+                            <a href="{{ commission.get_absolute_url }}" class="btn btn-primary btn-sm">Details</a>
+                        </div>    
+                    </div>
+                    <br><br>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col">    
+            <div class="container">
+                <h2>Applied Commissions</h2>
+                <hr>
+                {% for commission in applied_comms %}
+                <div class="card" style="width: 18rem;">
+                    <div class="card-header">{{ commission.title }}</div>
+                    <div class="card-body">
+                        <p class="card-text">Status: {{ commission.status}}</p>
+                        <a href="{{ commission.get_absolute_url }}" class="btn btn-primary btn-sm">Details</a>
+                    </div>    
+                </div>
+                <br><br>
+                {% endfor %}
+            </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="container">
+    <h2>Commissions</h2>
+    {% for commission in sorted_comms %}
+    <div class="card" style="width: 18rem;">
+        <div class="card-header">{{ commission.title }}</div>
+        <div class="card-body">
+            <p class="card-text">Status: {{ commission.status}}</p>
+            <a href="{{ commission.get_absolute_url }}" class="btn btn-primary btn-sm">Details</a>
+        </div>    
+    </div>
+    <br><br>
+    {% endfor %}
+</div>
 
 {% endblock %}
