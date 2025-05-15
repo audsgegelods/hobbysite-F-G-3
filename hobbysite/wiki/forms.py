@@ -1,7 +1,8 @@
 from django import forms
-from .models import Article, ArticleCategory, Comment
+from .models import Article, Comment
 
-class ArticleForm(forms.Form):
+
+class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article
         fields = '__all__'
@@ -16,7 +17,15 @@ class ArticleForm(forms.Form):
         }
         readonly_fields = ['author', 'created_on', 'updated_on']
 
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = '__all__'
+        labels = {
+            'author': 'Commenter',
+            'article': 'Article',
+            'entry': 'Comment',
+        }
+        # readonly_fields = ['author', 'article', 'created_on', 'updated_on']
+        ordering = ['-created_on']
