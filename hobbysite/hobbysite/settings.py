@@ -127,7 +127,7 @@ STATIC_ROOT = [os.path.join(BASE_DIR, 'static')]
 MEDIA_ROOT = BASE_DIR/'media'
 MEDIA_URL = '/media/'
 LOGIN_REDIRECT_URL = '/wiki/articles'
-LOGOUT_REDIRECT_URL = '/user_management/login'
+LOGOUT_REDIRECT_URL = '/accounts/login'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Default primary key field type

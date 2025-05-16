@@ -20,14 +20,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('user_management/', include('user_management.urls')),
-    path('', include('merchstore.urls', namespace="merchstore")),
-    path('wiki/', include('wiki.urls', namespace='wiki')),
-    path('blog/', include("blog.urls", namespace='blog')),
-    path('commissions/', include('commissions.urls', namespace='commissions')),
-    # path('forum/', include('forum.urls', namespace='commissions')),
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('profile/', include('profile.urls', namespace='profile')),
+    path('', include('merchstore.urls', namespace='merchstore')),
+    path('wiki/', include('wiki.urls', namespace='wiki')),
+    path('blog/', include('blog.urls', namespace='blog')),
+    path('commissions/', include('commissions.urls', namespace='commissions')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
