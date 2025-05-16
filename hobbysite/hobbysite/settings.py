@@ -39,15 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<< HEAD
     'user_management',
     'blog',
     'commissions',
     'merchstore',
     'wiki',
-=======
-    'profile',
->>>>>>> origin/profile
 ]
 
 MIDDLEWARE = [
@@ -128,11 +124,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = [os.path.join(BASE_DIR, 'static')]
-<<<<<<< HEAD
 LOGIN_REDIRECT_URL = '/merchstore/items'
-=======
-# LOGIN_REDIRECT_URL = '/blog/articles'
->>>>>>> origin/profile
 LOGOUT_REDIRECT_URL = '/accounts/login'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
