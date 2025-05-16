@@ -39,11 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'commissions',
-    'user_management',
-    'blog',
+    'accounts',
+    'profile',
     'merchstore',
     'wiki',
+    'blog',
+    'forum',
+    'commissions',
 ]
 
 MIDDLEWARE = [
@@ -123,8 +125,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-LOGIN_REDIRECT_URL = '/commissions/list'
 STATIC_ROOT = [os.path.join(BASE_DIR, 'static')]
+LOGIN_REDIRECT_URL = '/commissions/list'
 LOGOUT_REDIRECT_URL = '/accounts/login'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
