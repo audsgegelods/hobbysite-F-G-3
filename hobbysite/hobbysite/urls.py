@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 from .views import homepage
 
 urlpatterns = [
+    path('', homepage, name="homepage"),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('profile/', include('profile.urls', namespace='profile')),
