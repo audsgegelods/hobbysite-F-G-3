@@ -44,9 +44,13 @@ INSTALLED_APPS = [
     'merchstore',
     'wiki',
     'blog',
+<<<<<<< HEAD
     'forum',
     'commissions',
     'storages',
+=======
+    'commissions',
+>>>>>>> origin/wiki
 ]
 
 MIDDLEWARE = [
@@ -125,6 +129,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
+<<<<<<< HEAD
 MEDIA_ROOT = BASE_DIR/'media'
 MEDIA_URL = '/media/'
 
@@ -138,6 +143,14 @@ from .cdn.conf import *
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+=======
+STATIC_URL = 'static/'
+STATIC_ROOT = [os.path.join(BASE_DIR, 'static')]
+MEDIA_ROOT = BASE_DIR/'media'
+MEDIA_URL = '/media/'
+LOGIN_REDIRECT_URL = '/wiki/articles'
+LOGOUT_REDIRECT_URL = '/accounts/login'
+>>>>>>> origin/wiki
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Default primary key field type
