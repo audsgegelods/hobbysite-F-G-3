@@ -22,14 +22,14 @@ from django.conf.urls.static import static
 from .views import homepage
 
 urlpatterns = [
-    path('', homepage, name="homepage"),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('merchstore/', include('merchstore.urls', namespace="merchstore")),
-    path('wiki/', include('wiki.urls', namespace="wiki")),
-    path('blog/', include("blog.urls", namespace='blog')),
-    path('commissions/', include('commissions.urls', namespace='commissions')),
-    path('forum/', include('forum.urls', namespace='forum')),
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('profile/', include('profile.urls', namespace='profile')),
+    path('merchstore/', include('merchstore.urls', namespace='merchstore')),
+    path('wiki/', include('wiki.urls', namespace='wiki')),
+    path('blog/', include('blog.urls', namespace='blog')),
+    path('forum/', include('forum.urls', namespace='forum')),
+    path('commissions/', include('commissions.urls', namespace='commissions')),
 ]
 
 if settings.DEBUG:
