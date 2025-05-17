@@ -9,6 +9,11 @@ class ProfileCreateView(CreateView):
     template_name = 'profile/profile-add.html'
     form_class = UserCreateForm
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = UserCreateForm()
+        return context
+
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super(ProfileCreateView, self).form_valid(form)
