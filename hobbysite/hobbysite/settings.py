@@ -45,12 +45,17 @@ INSTALLED_APPS = [
     'wiki',
     'blog',
 <<<<<<< HEAD
+<<<<<<< HEAD
     'forum',
     'commissions',
     'storages',
 =======
     'commissions',
 >>>>>>> origin/wiki
+=======
+    'forum',
+    'commissions',
+>>>>>>> origin/forum
 ]
 
 MIDDLEWARE = [
@@ -132,6 +137,7 @@ USE_TZ = True
 <<<<<<< HEAD
 MEDIA_ROOT = BASE_DIR/'media'
 MEDIA_URL = '/media/'
+<<<<<<< HEAD
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
@@ -151,6 +157,12 @@ MEDIA_URL = '/media/'
 LOGIN_REDIRECT_URL = '/wiki/articles'
 LOGOUT_REDIRECT_URL = '/accounts/login'
 >>>>>>> origin/wiki
+=======
+STATIC_URL = 'static/'
+STATIC_ROOT = [os.path.join(BASE_DIR, 'static')]
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+>>>>>>> origin/forum
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Default primary key field type
