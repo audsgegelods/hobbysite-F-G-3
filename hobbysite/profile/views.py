@@ -1,17 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import UpdateView
 from .models import Profile
 from .forms import ProfileForm
-
-
-class ProfileCreateView(LoginRequiredMixin, CreateView):
-    model = Profile
-    template_name = 'profile/profile.html'
-    form_class = ProfileForm
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super(ProfileCreateView, self).form_valid(form)
 
 
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
