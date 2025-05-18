@@ -2,6 +2,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from profile.models import Profile
 from .models import ThreadCategory, Thread
 from .forms import CommentForm
 
@@ -24,7 +25,7 @@ class ThreadDetailView(DetailView):
     def post(self, request, *args, **kwargs):
         form = CommentForm(request.POST)
         if form.is_valid():
-            form.instance.author = self.request.user
+            form.instance.author = Profile.objects.get(user=self.request.user)
             form.instance.thread = self.get_object()
             form.save()
             return self.get(request, *args, **kwargs)
@@ -40,7 +41,7 @@ class ThreadCreateView(LoginRequiredMixin, CreateView):
     template_name = 'thread_form.html'
 
     def form_valid(self, form):
-        user = self.request.user
+        user = Profile.objects.get(user=self.request.user)
         form.instance.author = user
         return super(ThreadCreateView, self).form_valid(form)
 

@@ -18,9 +18,9 @@
 					<p>{{ category.description }}</p>
 					<ul>
 						{% for thread in category.thread_set.all %}
-							{% if thread.author == user %}
+							{% if thread.author.user == user %}
 									<li><a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a>
-									by {{ thread.author }}</li>
+									by {{ thread.author.display_name }}</li>
 							{% endif %}
 						{% endfor %}
 					</ul>
@@ -33,9 +33,9 @@
 					<p>{{ category.description }}</p>
 					<ul>
 						{% for thread in category.thread_set.all %}
-							{% if thread.author != user %}
+							{% if thread.author.user != user %}
 									<li><a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a>
-									by {{ thread.author }}</li>
+									by {{ thread.author.display_name }}</li>
 							{% endif %}
 						{% endfor %}
 					</ul>

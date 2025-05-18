@@ -18,7 +18,7 @@
 					   alt="...">
 					<br>
 				{% endif %}
-				{% if user == thread.author %}
+				{% if user == thread.author.user %}
 					<h3><a href="{% url 'forum:thread_update' pk=thread.pk %}" class="btn btn-warning">Edit</a></h3>
 				{% endif %}
 			</div>
@@ -28,7 +28,7 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="row">
-						<div class="col"><b>Author</b><p>{{ thread.author }}</p></div>
+						<div class="col"><b>Author</b><p>{{ thread.author.display_name }}</p></div>
 						<div class="col"><b>Category</b><p>{{ thread.category.name }}</p></div>
 					</div>
 					<br>
@@ -51,7 +51,7 @@
 					<ol>
 						{% for comment in thread.comments.all %}
 							<li>
-								{{ comment.author }}: {{ comment.entry }}<br>
+								{{ comment.author.display_name }}: {{ comment.entry }}<br>
 								Commented on: {{ comment.created_on }}
 							</li>
 							{% empty %}
