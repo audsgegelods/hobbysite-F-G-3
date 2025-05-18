@@ -5,14 +5,39 @@
 
 
 <h2> {{product.name}} </h2>
-<i> Php {{product.price}}</i> <br>
+<i> Sold by: {{product.owner}} </i> <br>
+<i> Php <strong>{{product.price}}</strong></i> <br>
 <br>
 <strong>Description:</strong> {{product.description}}
+<br>
+<strong>Stock:</strong> {{product.stock}}
+
 
 <dl>
     <dt><i>Category:</i> <strong>{{product.product_type.name}}</strong></dt>
     <dd>{{product.product_type.description}}</dd>
 </dl>
+
+{% if user != product.owner %}
+    <form method = "POST">
+        {% csrf_token %}
+        {{form}}
+        {% if product.stock > 0 %}
+            <button type = "submit" value = "Submit">Buy</button>
+        {% else %}
+            <button type="submit" disabled>Buy</button>
+        {% endif %}
+    </form>
+{% endif %}
+
+{% if request.user.is_authenticated %}
+    {% if user == product.owner %}
+        <a href="{{object.get_absolute_url}}/edit">Edit Item Information</a>
+    {% endif %}
+{% endif %}
+
+<br>
+<a href="{% url 'merchstore:items' %}">Return to Product Listings</a>
 
 
 {% endblock %}

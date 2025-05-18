@@ -1,10 +1,17 @@
 from django.db import models
 from django.urls import reverse
+from profile.models import Profile
 
 
 class ArticleCategory(models.Model):
-    name = models.CharField(max_length=255, null=True)
-    description = models.TextField()
+    name = models.CharField(
+        max_length=255,
+        null=True
+    )
+    description = models.TextField(
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return self.name
@@ -15,13 +22,26 @@ class ArticleCategory(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=255)
+    author = models.ForeignKey(
+        Profile,
+        on_delete=models.SET_NULL,
+        null=True,
+        editable=False,
+        related_name='articles'
+    )
     category = models.ForeignKey(
         ArticleCategory,
         on_delete=models.SET_NULL,
         null=True,
+        related_name='articles'
     )
     entry = models.TextField()
-    created_on = models.DateTimeField(auto_now_add=True)
+    header_image = models.ImageField(
+        upload_to='images/',
+        null=True,
+        blank=True
+        )
+    created_on = models.DateTimeField(auto_now_add=True, editable=False)
     updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -32,3 +52,27 @@ class Article(models.Model):
 
     class Meta:
         ordering = ['-created_on']
+
+
+class Comment(models.Model):
+    author = models.ForeignKey(
+        Profile,
+        on_delete=models.SET_NULL,
+        null=True,
+        editable=False,
+        related_name='comments'
+    )
+    article = models.ForeignKey(
+        Article,
+        on_delete=models.CASCADE,
+        null=True,
+        related_name='comments',
+        editable=False
+
+    )
+    entry = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['created_on']

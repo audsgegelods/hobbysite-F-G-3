@@ -1,0 +1,32 @@
+{% extends 'merchstore/base.html' %}
+{% load static %}
+{% block title %} Cart {% endblock %}
+{% block content %}
+
+<ul>
+<h2>Your Cart</h2>
+  {% for seller in sellers %}
+    <dl>
+      {% if seller != user %}
+      <dt><h3>Sold by {{seller}}</h3></dt>
+      {% endif %}
+    </dl>
+    <ol>
+    {% for transaction in object_list %}
+      {% if transaction.product.owner == seller %}
+        {% if transaction.buyer == user %}
+          <li><strong>{{transaction.product.name}} ({{transaction.status}})</strong> </li>
+            <ul>
+              <li>{{transaction.amount}} item(/s)</li>
+            </ul>
+        {% endif %}
+      {%endif%}
+    {% endfor %}
+    </ol>
+  {% endfor %}
+</ul>
+
+<a href="{% url 'merchstore:items' %}">Return to Product Listings</a>
+
+
+{% endblock %}

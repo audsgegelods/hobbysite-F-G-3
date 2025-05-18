@@ -1,4 +1,4 @@
-"""
+'''
 URL configuration for hobbysite project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -13,7 +13,7 @@ Class-based views
 Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
+'''
 from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 from .views import homepage
 
 urlpatterns = [
-    path('', homepage, name="homepage"),
+    path('', homepage, name='homepage'),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('profile/', include('profile.urls', namespace='profile')),
@@ -33,8 +33,4 @@ urlpatterns = [
     path('commissions/', include('commissions.urls', namespace='commissions')),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(
-        settings.MEDIA_URL,
-        document_root=settings.MEDIA_ROOT
-    )
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

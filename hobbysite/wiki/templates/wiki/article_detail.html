@@ -2,12 +2,46 @@
 {% load static %}
 {% block title %}{{ article.title }}{% endblock %}
 {% block content %}
-<h2>{{ article.title }}</h2>
-<ul>
-    <li>{{ article.title }}</li>
-    <li>Category: {{ article.category.name }}</li>
-    <li>Created on: {{ article.created_on }}</li>
-    <li>Updated on: {{ article.updated_on }}</li>
-    <li>{{ article.entry }}</li>
-</ul>
+<a href="{% url 'wiki:article_list' %}">Wiki Article List</a>
+<div>
+	<h2>{{ article.title }} by {{ article.author }}</h2>
+	{% if request.user.is_authenticated %}
+		{% if request.user == article.author %}
+			<span>
+				[<a href="{% url 'wiki:article_update' pk=article.pk%}">Edit</a>]
+			</span>
+		{% endif %}
+	{% endif %}
+</div>
+{% if article.header_image %}
+    <img src="{{ article.header_image.url }}">
+{% endif %}
+<div>Created on {{ article.created_on }}</div>
+<div>Last Updated on {{ article.updated_on }}</div>
+<h3>Contents</h3>
+<p>{{ article.entry }}</p>
+<h3>Read more from {{ article.category.name }}</h3>
+{% for similar_article in article.category.articles.all %}
+    <div>
+		{% if similar_article.pk != article.pk %}
+			<a href="{% url 'wiki:article_detail' pk=similar_article.pk %}">
+				{{ similar_article.title }}
+			</a>
+		{% endif %}
+	</div>
+{% endfor %}
+<h3>Comments</h3>
+{% if request.user.is_authenticated %}
+	<form method="POST">
+		{% csrf_token %}
+		{{ form }}
+		<input type="submit" value="Submit">
+	</form>
+{% endif %}
+{% for comment in article.comments.all %}
+	<div>
+		<div>{{ comment.author }} on {{ comment.created_on }}</div>
+		<div>{{ comment.entry }}</div>
+	</div>
+{% endfor %}
 {% endblock %}
