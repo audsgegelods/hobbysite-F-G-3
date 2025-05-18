@@ -25,7 +25,7 @@
 			<h3>{{ category.name }}</h3>
 			<ul>
 				{% for article in category.articles.all %}
-					{% if article.author == user %}
+					{% if article.author.user == user %}
 						<li><a href='{{ article.get_absolute_url }}'>{{ article.title }}</a></li>
 					{% endif %}
 				{% endfor %}
@@ -40,7 +40,7 @@
 			<h3>{{ category.name }}</h3>
 			<ul>
 				{% for article in category.articles.all %}
-					{% if article.author != user %}
+					{% if article.author.user != user %}
 						<li><a href='{{ article.get_absolute_url }}'>{{ article.title }}</a></li>
 					{% endif %}
 				{% endfor %}

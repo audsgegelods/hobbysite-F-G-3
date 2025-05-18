@@ -5,6 +5,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 
+from profile.models import Profile
 from .models import Article, ArticleCategory, Comment
 from .forms import CommentForm
 import random
@@ -42,7 +43,7 @@ class ArticleDetailView(DetailView):
     def post(self, request, *args, **kwargs):
         form = CommentForm(request.POST)
         if form.is_valid():
-            form.instance.author = self.request.user
+            form.instance.author = Profile.objects.get(user=self.request.user)
             form.instance.article = self.get_object()
             form.save()
             return self.get(request, *args, **kwargs)
@@ -60,7 +61,7 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         user = self.request.user
-        form.instance.author = user
+        form.instance.author = Profile.objects.get(user=self.request.user)
         return super(ArticleCreateView, self).form_valid(form)
 
 
