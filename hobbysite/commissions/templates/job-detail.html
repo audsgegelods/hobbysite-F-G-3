@@ -26,7 +26,7 @@
 </div>
 <br>
 <hr>
-{% if job.commission.author != user %}
+{% if job.commission.author.user != user %}
 <div class="container">
     <h2>Apply to Job</h2>
     {% if acceptedJobAppCount != job.manpower_required %}

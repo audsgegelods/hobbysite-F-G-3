@@ -5,6 +5,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from profile.models import Profile
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect
 
@@ -26,12 +27,12 @@ class ComListView(ListView):
 
         context['created_comms'] = []
         for comm in sorted_comms:
-            if comm.author == self.request.user:
+            if comm.author == Profile.objects.get(user=self.request.user):
                 context['created_comms'].append(comm)
 
         context['applied_comms'] = []
         for jobApp in JobApplication.objects.all():
-            if jobApp.applicant == self.request.user:
+            if jobApp.applicant == Profile.objects.get(user=self.request.user):
                 context['applied_comms'].append(jobApp.job.commission)
 
         context['sorted_comms'] = sorted_comms
@@ -69,7 +70,7 @@ class ComDetailView(DetailView):
     def post(self, request, *args, **kwargs):
         form = JobAppForm(request.POST)
         if form.is_valid():
-            form.instance.applicant = self.request.user
+            form.instance.applicant = Profile.objects.get(user=self.request.user)
             form.instance.job = self.get_object()
 
             form.save()
@@ -103,7 +104,7 @@ class JobDetailView(LoginRequiredMixin, DetailView):
     def post(self, request, *args, **kwargs):
         form = JobAppForm(request.POST)
         if form.is_valid():
-            form.instance.applicant = self.request.user
+            form.instance.applicant = Profile.objects.get(user=self.request.user)
             form.instance.job = self.get_object()
             form.save()
             return self.get(request, *args, **kwargs)
@@ -153,7 +154,7 @@ class ComCreateView(LoginRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        form.instance.author = Profile.objects.get(user=self.request.user)
         return super(ComCreateView, self).form_valid(form)
     
     def get_success_url(self):

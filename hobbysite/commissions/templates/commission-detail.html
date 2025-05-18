@@ -10,7 +10,7 @@
     <div class="card" style="width: 40rem; margin-top:30px">
         <div class="card-body">
             <div class="row justify-content-start">
-                <div class="col"><b>Author</b> <p>{{ commission.author }}</p></div>
+                <div class="col"><b>Author</b> <p>{{ commission.author.display_name }}</p></div>
                 <div class="col"><b>People Required</b> <p>{{ total_manpower}}</p></div>
                 <div class="col"><b>Open Positions</b> <p>{{ open_manpower }}</p></div>
             </div>
@@ -41,7 +41,7 @@
                     <div class="col"><b>Status</b> <p>{{ job.status }}</p></div>
                     <div class="col"><b>Manpower Required</b> <p>{{ job.manpower_required }}</p></div>
                 </div>
-                {% if commission.author == user %}
+                {% if commission.author.user == user %}
                     <a href={% url 'commissions:job_detail' pk=job.pk %} class="btn btn-warning">View Job Details & Review Applications</a>
                 {% else %}
                     <a href={% url 'commissions:job_detail' pk=job.pk %} class="btn btn-primary">View Job Details & Apply</a>
