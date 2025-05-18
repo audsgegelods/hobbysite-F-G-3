@@ -4,6 +4,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 
+from profile.models import Profile
 from .models import ArticleCategory, Article, Comment
 from .forms import ArticleForm, CommentForm
 
@@ -27,7 +28,7 @@ class ArticleDetailView(DetailView):
     def post(self, request, *args, **kwargs):
         form = CommentForm(request.POST)
         if form.is_valid():
-            form.instance.author = self.request.user
+            form.instance.author = Profile.objects.get(user=self.request.user)
             form.instance.article = self.get_object()
             form.save()
             return self.get(request, *args, **kwargs)
@@ -43,7 +44,7 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     form_class = ArticleForm
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        form.instance.author = Profile.objects.get(user=self.request.user)
         return super(ArticleCreateView, self).form_valid(form)
 
 
@@ -53,5 +54,5 @@ class ArticleUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('wiki:article_detail')
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        form.instance.author = Profile.objects.get(user=self.request.user)
         return super(ArticleUpdateView, self).form_valid(form)

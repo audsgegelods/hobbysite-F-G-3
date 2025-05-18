@@ -4,9 +4,9 @@
 {% block content %}
 <a href="{% url 'wiki:article_list' %}">Wiki Article List</a>
 <div>
-	<h2>{{ article.title }} by {{ article.author }}</h2>
+	<h2>{{ article.title }} by {{ article.author.display_name }}</h2>
 	{% if request.user.is_authenticated %}
-		{% if request.user == article.author %}
+		{% if request.user == article.author.user %}
 			<span>
 				[<a href="{% url 'wiki:article_update' pk=article.pk%}">Edit</a>]
 			</span>
@@ -40,7 +40,7 @@
 {% endif %}
 {% for comment in article.comments.all %}
 	<div>
-		<div>{{ comment.author }} on {{ comment.created_on }}</div>
+		<div>{{ comment.author.display_name }} on {{ comment.created_on }}</div>
 		<div>{{ comment.entry }}</div>
 	</div>
 {% endfor %}
