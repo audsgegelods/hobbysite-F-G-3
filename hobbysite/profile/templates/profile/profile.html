@@ -7,7 +7,9 @@
         {% csrf_token %}
         <input type="submit" value="Logout">
     </form>
-    {% if request.user == profile.user%}
+    <h2>{{profile.display_name}}</h2>
+
+    {% if request.user == profile.user %}
         <form method="POST">
             {% csrf_token %}
             {{ form }}
