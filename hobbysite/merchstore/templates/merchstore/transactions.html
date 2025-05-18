@@ -7,14 +7,14 @@
 <h2>Your Transactions</h2>
   {% for buyer in buyers %}
     <dl>
-      {% if buyer != user %}
-      <dt><h3>Bought by {{buyer}}</h3></dt>
+      {% if buyer.user != user %}
+      <dt><h3>Bought by {{buyer.display_name}}</h3></dt>
       {% endif %}
     </dl>
     <ol>
     {% for transaction in object_list %}
       {% if transaction.buyer == buyer %}
-        {% if transaction.product.owner == user %}
+        {% if transaction.product.owner.user == user %}
           <li><strong>{{transaction.product.name}} ({{transaction.status}})</strong> </li>
             <ul>
               <li>{{transaction.amount}} item(/s)</li>

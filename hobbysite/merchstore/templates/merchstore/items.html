@@ -17,8 +17,8 @@
       <ol>
         <h4>Items</h4>
           {% for product in product_type.product.all %}
-            {% if product.owner == user %}
-              <li><strong><a href='{{product.get_absolute_url}}'>{{product.name}} </strong> from {{product.owner}}</a>:<i>({{product.status}})</i></li>
+            {% if product.owner.user == user %}
+              <li><strong><a href='{{product.get_absolute_url}}'>{{product.name}} </strong> from {{product.owner.display_name}}</a>:<i>({{product.status}})</i></li>
               <ul>
                 <li>{{product.description}}
               </ul>
@@ -37,8 +37,8 @@
       <ol>
         <h4>Items</h4>
           {% for product in product_type.product.all %}
-            {% if product.owner != user %}
-              <li><strong><a href='{{product.get_absolute_url}}'>{{product.name}} </strong> from {{product.owner}}</a>:<i>({{product.status}})</i></li>
+            {% if product.owner.user != user %}
+              <li><strong><a href='{{product.get_absolute_url}}'>{{product.name}} </strong> from {{product.owner.display_name}}</a>:<i>({{product.status}})</i></li>
               <ul>
                 <li>{{product.description}}
               </ul>
@@ -59,7 +59,7 @@
     <ol>
       <h4>Items</h4>
         {% for product in product_type.product.all %}
-        <li><strong><a href='{{product.get_absolute_url}}'>{{product.name}} </strong> from {{product.owner}}</a>:<i>({{product.status}})</i></li>
+        <li><strong><a href='{{product.get_absolute_url}}'>{{product.name}} </strong> from {{product.owner.display_name}}</a>:<i>({{product.status}})</i></li>
               <ul>
                 <li>{{product.description}}
               </ul>

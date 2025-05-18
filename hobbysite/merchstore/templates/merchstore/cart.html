@@ -7,14 +7,14 @@
 <h2>Your Cart</h2>
   {% for seller in sellers %}
     <dl>
-      {% if seller != user %}
-      <dt><h3>Sold by {{seller}}</h3></dt>
+      {% if seller.user != user %}
+      <dt><h3>Sold by {{seller.display_name}}</h3></dt>
       {% endif %}
     </dl>
     <ol>
     {% for transaction in object_list %}
       {% if transaction.product.owner == seller %}
-        {% if transaction.buyer == user %}
+        {% if transaction.buyer.user == user %}
           <li><strong>{{transaction.product.name}} ({{transaction.status}})</strong> </li>
             <ul>
               <li>{{transaction.amount}} item(/s)</li>

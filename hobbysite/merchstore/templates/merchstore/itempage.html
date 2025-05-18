@@ -5,7 +5,7 @@
 
 
 <h2> {{product.name}} </h2>
-<i> Sold by: {{product.owner}} </i> <br>
+<i> Sold by: {{product.owner.display_name}} </i> <br>
 <i> Php <strong>{{product.price}}</strong></i> <br>
 <br>
 <strong>Description:</strong> {{product.description}}
@@ -18,7 +18,7 @@
     <dd>{{product.product_type.description}}</dd>
 </dl>
 
-{% if user != product.owner %}
+{% if user != product.owner.user %}
     <form method = "POST">
         {% csrf_token %}
         {{form}}
@@ -31,7 +31,7 @@
 {% endif %}
 
 {% if request.user.is_authenticated %}
-    {% if user == product.owner %}
+    {% if user == product.owner.user %}
         <a href="{{object.get_absolute_url}}/edit">Edit Item Information</a>
     {% endif %}
 {% endif %}

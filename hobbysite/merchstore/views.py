@@ -32,7 +32,7 @@ class IndividProductView(DetailView):
                 product.status = 'Out of Stock'
             if not (request.user.is_authenticated):
                 return redirect('login')
-            form.instance.buyer = self.request.user
+            form.instance.buyer = Profile.objects.get(user=self.request.user)
             product.save()
             form.save()
             return redirect('merchstore:cart')
@@ -55,7 +55,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     redirect_field_name = '/accounts/login'
 
     def form_valid(self, form):
-        form.instance.owner = self.request.user
+        form.instance.owner = Profile.objects.get(user=self.request.user)
         if form.instance.stock < 1:
             form.instance.status = 'Out of Stock'
         else:
@@ -70,7 +70,7 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     redirect_field_name = '/accounts/login'
 
     def form_valid(self, form):
-        form.instance.owner = self.request.user
+        form.instance.owner = Profile.objects.get(user=self.request.user)
         if form.instance.stock < 1:
             form.instance.status = 'Out of Stock'
         else:
