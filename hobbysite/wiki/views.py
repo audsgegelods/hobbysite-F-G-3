@@ -40,6 +40,7 @@ class ArticleDetailView(DetailView):
 
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):
+    model = Article
     template_name = 'wiki/article_form.html'
     form_class = ArticleForm
 
@@ -49,6 +50,7 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
 
 
 class ArticleUpdateView(LoginRequiredMixin, UpdateView):
+    model = Article
     template_name = 'wiki/article_form.html'
     form_class = ArticleForm
     success_url = reverse_lazy('wiki:article_detail')

@@ -27,7 +27,7 @@
                 {% for category in object_list %}
                     <ul>
                         {% for other_article in category.articles.all %}
-                            {% if article.author.user != request.user %}
+                            {% if other_article.author.user != request.user %}
                                 <li><a href="{% url 'wiki:article_detail' pk=other_article.pk %}">
                                     {{ other_article.title }}
                                 </a></li>
