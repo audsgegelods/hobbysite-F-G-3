@@ -27,7 +27,7 @@ class ComListView(ListView):
 
         context['created_comms'] = []
         for comm in sorted_comms:
-            if comm.author == Profile.objects.get(user=self.request.user):
+            if comm.author.user == Profile.objects.get(user=self.request.user):
                 context['created_comms'].append(comm)
 
         context['applied_comms'] = []
