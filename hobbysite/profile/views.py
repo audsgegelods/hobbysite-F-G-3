@@ -36,6 +36,11 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'profile/profile.html'
     form_class = ProfileForm
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = UserCreateForm()
+        return context
+    
     def form_valid(self, form):
         #if self.request.user in Profile.objects.all():
         #    form.instance.user = self.request.user

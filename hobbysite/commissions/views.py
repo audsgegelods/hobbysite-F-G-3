@@ -123,6 +123,7 @@ class JobAddView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = JobForm()
+        context['all_objects'] = Commission.objects.all()
         return context
 
     def get_success_url(self):
